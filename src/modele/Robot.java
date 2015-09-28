@@ -54,11 +54,10 @@ public class Robot implements Case {
 
     public String detecteurElement(Position pos, ArrayList<Case> listCase) {
         String element = "";
-        if (existPosition(pos, listCase)) {
+        if (existPosition(pos, listCase) == true) {
             for (Case c : listCase) {
                 if (Position.egalite(pos, c.position()) == true) {
                     element = c.toString();
-                    System.err.println("element "+element);
                 }
             }
         }
@@ -72,16 +71,16 @@ public class Robot implements Case {
         Position pos = new Position(0, 0);
         switch (direction) {
             case Nord:
-                pos = new Position(position.getX(), position.getY() + 1);
-                break;
-            case Sud:
                 pos = new Position(position.getX(), position.getY() - 1);
                 break;
+            case Sud:
+                pos = new Position(position.getX(), position.getY() + 1);
+                break;
             case Est:
-                pos = new Position(position.getX() - 1, position.getY());
+                pos = new Position(position.getX() + 1, position.getY());
                 break;
             case Ouest:
-                pos = new Position(position.getX() + 1, position.getY());
+                pos = new Position(position.getX() - 1, position.getY());
                 break;
             default:
                 break;
@@ -100,25 +99,34 @@ public class Robot implements Case {
 
     }
 
-    public void seDeplacer(Direction direction, Position position, ArrayList<Case> listCase, Robot robot) {
-        System.err.println("entre "+position);
+    public Robot seDeplacer(Direction direction, Position position, ArrayList<Case> listCase, Robot robot) {
+        
+        Robot rob = null;
         Position pos = nextPosition(direction, position);
-        System.err.println("nouvelle position "+pos);
+        
         if (existPosition(pos, listCase)) {
-            System.err.println(" "+pos+" existe");
-            if ("Case Vide".equals(detecteurElement(pos, listCase))) {
-                // décide de faire feu ou marcher
-                System.err.println("case vide ");
-                robot.setPosition(pos);
 
-            } else {
-                // lancement laser
+            String element = detecteurElement(pos, listCase);
+            switch(element){
+                case "CaseVide":
+                    System.err.println("case vide "+pos);
+                   rob = new Robot(robot.getEnergie(), pos, robot.getDirection(),robot.getNom()); 
+                    break;
+                case "Robot":
+                    
+                    break;
+                case "Missile":
+                    
+                    break;
+                  
             }
         } else {
             robot.setDirection(Direction.getRandomDirection());
+//            System.err.println("Nouvelle direction "+)
             seDeplacer(direction, position, listCase, robot);
             //CHangement de direction
         }
+        return rob;
     }
 
     public void attaquer(Robot robot) {

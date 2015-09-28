@@ -52,12 +52,21 @@ public class Vue extends JFrame implements Observer {
     }
 
     public void mouvementRobot() {
+         for (Case caseGraphique : grille.getListCase()) {
+        System.out.println("Avant Position " + caseGraphique.position() + " et je suis " + caseGraphique.toString());
+        }
+        
         for (Robot robot : grille.getListRobot()) {
-           // System.err.println("entre "+robot.position());
+            System.err.println("entre "+robot.position()+" direction "+robot.getDirection());
             Position oldPosition = robot.getPosition();
-           // robot.seDeplacer(robot.getDirection(), robot.getPosition(), grille.getListCase());
-           // System.err.println("sortie "+robot.position());
+
+            robot = robot.seDeplacer(robot.getDirection(), robot.getPosition(), grille.getListCase(), robot);
+            System.err.println("sortie "+robot.position());
             actualisationDeLaListeGrille(robot, oldPosition);
+            
+             for (Case caseGraphique : grille.getListCase()) {
+          System.out.println("Après Position " + caseGraphique.position() + " et je suis " + caseGraphique.toString());
+        }
         }
 
     }
@@ -67,14 +76,15 @@ public class Vue extends JFrame implements Observer {
 
             if ("Robot".equals(grille.getListCase().get(i).toString())) {
 
-                if (Position.egalite(oldPosition, grille.getListCase().get(i).position())) {
+                if (Position.egalite(oldPosition, grille.getListCase().get(i).position()) == true) {
                     grille.getListCase().set(i, new CaseVide(oldPosition));
+                   
                 }
-                grille.getListCase().set(i, robot);
+                 grille.getListCase().set(i, robot);
             }
 
         }
-
+        
     }
 
     public void afficherCase(int hauteur, int largeur) {
@@ -102,7 +112,7 @@ public class Vue extends JFrame implements Observer {
         for (Case caseGraphique : grille.getListCase()) {
          // System.out.println("Avant Position " + caseGraphique.position() + " et je suis " + caseGraphique.toString());
         }
-        mouvementRobot();
+       mouvementRobot();
         
         for (Case caseGraphique : grille.getListCase()) {
          // System.out.println("Après Position " + caseGraphique.position() + " et je suis " + caseGraphique.toString());

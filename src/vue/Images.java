@@ -87,7 +87,7 @@ public class Images {
                 imageIcon = directionRobot(caz);
                 break;
             case "Missile":
-                //    
+                directionMissile(caz);  
                 break;
             default:
                 break;

@@ -21,7 +21,7 @@ public class Main {
         // TODO code application logic here
       // Grille grille = new Grille(3, 5, 3);
        // System.out.println("taille "+grille.getListCase().size());
-        Vue vue = new Vue(2, 2, 1);
+        Vue vue = new Vue(3, 5, 1);
 
 //       for(Case r:grille.getListCase()){
 //           if("Robot".equals(r.toString())){
