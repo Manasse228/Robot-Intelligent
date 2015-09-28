@@ -50,7 +50,8 @@ public class Robot implements Case {
         }
         return casePresent;
     }
-
+//
+    
     public String detecteurElement(Position pos) {
         String element = "";
         if (existPosition(pos)) {
