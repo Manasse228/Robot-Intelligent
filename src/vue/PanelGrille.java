@@ -18,8 +18,8 @@ public class PanelGrille extends JPanel {
         super.paintComponents(g);
 
         Graphics2D g2d = (Graphics2D) g;
-
-        ImageIcon a = new ImageIcon(getClass().getResource("/images/background.jpg"));
+        ImageIcon a = new ImageIcon(System.getProperty("user.dir") + "/src/images/background.jpg");
+        // ImageIcon a = new ImageIcon(getClass().getResource("/images/background.jpg"));
         Image img = a.getImage();
         g2d.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
 

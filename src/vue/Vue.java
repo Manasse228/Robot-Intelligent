@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package vue;
-//FZIZRIUZIURZIUERIUZERIUZIUEIUZEIUIUZIEUZIUIUZIUEIEIUZEUIIUEZZIUE
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import modele.Case;
+import modele.CaseVide;
 import modele.Grille;
 import modele.Position;
 import modele.Robot;
@@ -33,74 +33,80 @@ public class Vue extends JFrame implements Observer {
     ArrayList<CaseGraphique> listCaseGraphique = new ArrayList<CaseGraphique>();
     ArrayList<CaseGraphique> triListCaseGraphique = new ArrayList<CaseGraphique>();
     Images images = new Images();
-    JButton jb;
 
-    public Vue(int x, int y, int nbreRobot) {
-        
+    public Vue(int hauteur, int largeur, int nbreRobot) {
+
         this.setTitle("Robot");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setSize((int) (screenSize.getHeight() * 0.8), (int) (screenSize.getHeight() * 0.6));
         this.setMinimumSize(new Dimension((int) (screenSize.getHeight() * 0.8), (int) (screenSize.getHeight() * 0.6)));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        
-         grille = new Grille(x, y, nbreRobot);
+
+        grille = new Grille(hauteur, largeur, nbreRobot);
         menu();
-        setLayout(new GridLayout(y, x));
-        afficherCase(x, y);
-
-    }
-    public void deplacementRobot(){
+        setLayout(new GridLayout(hauteur, largeur));
+        afficherCase(hauteur, largeur);
         
+        this.setVisible(true);
     }
 
-    public void afficherCase(int x, int y){
-        
-        for(Case caz:grille.getListCase()){
+    public void mouvementRobot() {
+        for (Robot robot : grille.getListRobot()) {
+           // System.err.println("entre "+robot.position());
+            Position oldPosition = robot.getPosition();
+           // robot.seDeplacer(robot.getDirection(), robot.getPosition(), grille.getListCase());
+           // System.err.println("sortie "+robot.position());
+            actualisationDeLaListeGrille(robot, oldPosition);
+        }
+
+    }
+
+    public void actualisationDeLaListeGrille(Robot robot, Position oldPosition) {
+        for (int i = 0; i < grille.getListCase().size(); i++) {
+
+            if ("Robot".equals(grille.getListCase().get(i).toString())) {
+
+                if (Position.egalite(oldPosition, grille.getListCase().get(i).position())) {
+                    grille.getListCase().set(i, new CaseVide(oldPosition));
+                }
+                grille.getListCase().set(i, robot);
+            }
+
+        }
+
+    }
+
+    public void afficherCase(int hauteur, int largeur) {
+
+        for (Case caz : grille.getListCase()) {
             listCaseGraphique.add(new CaseGraphique(caz, images.renvoiImages(caz).getImage()));
         }
-//        int cpt=0;
-//        while(cpt < y){
-//            
-//            for(int i=0;i<x;i++){
-//                
-//                for(CaseGraphique caseGraphique:listCaseGraphique){
-//                    
-//                if(Position.egalite(caseGraphique.getCaze().position(), new Position(i,cpt)) == true){
-//                       triListCaseGraphique.add(caseGraphique);
-//                    }
-//            }
-//            }
-//            cpt++;
-//        }
-        for(int i=0;i<x;i++){
-                for(int j=0;j<y;j++){
-                    for(CaseGraphique caseGraphique:listCaseGraphique){
-                         
-                    if(Position.egalite(caseGraphique.getCaze().position(), new Position(i,j)) == true){
-                       triListCaseGraphique.add(caseGraphique);
+
+        for (int i = 0; i < largeur; i++) {
+            for (int j = 0; j < hauteur; j++) {
+                for (CaseGraphique caseGraphique : listCaseGraphique) {
+
+                    if (Position.egalite(caseGraphique.getCaze().position(), new Position(i, j)) == true) {
+                        triListCaseGraphique.add(caseGraphique);
                     }
-                    }
-                    
                 }
+
+            }
         }
-        
-        for(CaseGraphique caseGraphique:triListCaseGraphique){
-           this.getContentPane().add(caseGraphique);
-//           String nom = caseGraphique.caze.position().toString();
-//           jb = new JButton(nom);
-//           this.getContentPane().add(jb);
+
+        for (CaseGraphique caseGraphique : triListCaseGraphique) {
+            this.getContentPane().add(caseGraphique);
         }
-        
-        for(Case caz:grille.getListCaseRobot()){
-            Robot robot = (Robot) caz;
-//            System.out.println("Robot "+robot.position()+" direction "+robot.getDirection());
+
+        for (Case caseGraphique : grille.getListCase()) {
+         // System.out.println("Avant Position " + caseGraphique.position() + " et je suis " + caseGraphique.toString());
         }
+        mouvementRobot();
         
-        for(CaseGraphique caseGraphique:triListCaseGraphique){
-            System.out.println("Position "+caseGraphique.getCaze().position()+" et je suis "+caseGraphique.getCaze().toString());
+        for (Case caseGraphique : grille.getListCase()) {
+         // System.out.println("Après Position " + caseGraphique.position() + " et je suis " + caseGraphique.toString());
         }
-        
     }
 
     public void menu() {

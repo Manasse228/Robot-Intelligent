@@ -14,33 +14,32 @@ import java.util.Random;
  */
 public class Grille {
 
-
+    int hauteur, largeur;
     Random rand = new Random();
     ArrayList<Case> listCase = new ArrayList<Case>();
-    ArrayList<Case> listCaseVide = new ArrayList<Case>();
-    ArrayList<Case> listCaseRobot = new ArrayList<Case>();
+    ArrayList<Robot> listRobot = new ArrayList<Robot>();
     ArrayList<Position> listPositionRobots = new ArrayList<Position>();
     Position robotPosition;
     Direction direction;
 
-    public final void creationRobot(int x, int y, int nbreRobots) {
+    public final void creationRobot(int hauteur, int largeur, int nbreRobots) {
         for (int i = 0; i < nbreRobots; i++) {
-            emplacementRobot(x, y);
+            emplacementRobot(hauteur, largeur);
         }
         for (Position list : listPositionRobots) {
             Case caseRobot = new Robot(12, list, Direction.getRandomDirection(), Utils.nomRobot());
+            listRobot.add((Robot) caseRobot);
             listCase.add(caseRobot);
-            listCaseRobot.add(caseRobot);
         }
     }
 
-    public Position emplacementRobot(int x, int y) {
+    public Position emplacementRobot(int hauteur, int largeur) {
         Position position;
         boolean verif = false;
 
-        int x1 = rand.nextInt(((x - 1) + 1) - 0);
-        int y1 = rand.nextInt(((y - 1) + 1) - 0);
-        position = new Position(x1, y1);
+        int x = rand.nextInt(((largeur - 1) + 1) - 0);
+        int y = rand.nextInt(((hauteur - 1) + 1) - 0);
+        position = new Position(x, y);
 
         for (Position pos : listPositionRobots) {
             if (Position.egalite(pos, position)) {
@@ -48,24 +47,24 @@ public class Grille {
             }
         }
         if (verif == true) {
-            emplacementRobot(x, y);
+            emplacementRobot(hauteur, largeur);
         } else {
             listPositionRobots.add(position);
         }
         return position;
     }
 
-    public boolean verifNbreRobot(int x, int y, int nbreRobot) {
-        return (nbreRobot > x * y);
+    public boolean verifNbreRobot(int hauteur, int largeur, int nbreRobot) {
+        return (nbreRobot > hauteur * largeur);
     }
 
-    public Grille(int x, int y, int nbreRobots) {
+    public Grille(int hauteur, int largeur, int nbreRobots) {
 
-        creationRobot(x, y, nbreRobots);
+        creationRobot(hauteur, largeur, nbreRobots);
         int pointeur = 0;
 
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+        for (int i = 0; i < largeur; i++) {
+            for (int j = 0; j < hauteur; j++) {
 
                 for (Position posi : listPositionRobots) {
                     if (Position.egalite(posi, new Position(i, j)) == false) {
@@ -98,20 +97,12 @@ public class Grille {
         this.listPositionRobots = listPositionRobots;
     }
 
-    public ArrayList<Case> getListCaseVide() {
-        return listCaseVide;
+    public ArrayList<Robot> getListRobot() {
+        return listRobot;
     }
 
-    public void setListCaseVide(ArrayList<Case> listCaseVide) {
-        this.listCaseVide = listCaseVide;
-    }
-
-    public ArrayList<Case> getListCaseRobot() {
-        return listCaseRobot;
-    }
-
-    public void setListCaseRobot(ArrayList<Case> listCaseRobot) {
-        this.listCaseRobot = listCaseRobot;
+    public void setListRobot(ArrayList<Robot> listRobot) {
+        this.listRobot = listRobot;
     }
 
 }

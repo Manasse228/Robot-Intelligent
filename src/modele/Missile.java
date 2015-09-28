@@ -5,6 +5,8 @@
  */
 package modele;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author 21416699
@@ -27,7 +29,7 @@ public class Missile implements Case {
 
     }
 
-    public void effacerCesTracesArriere(Direction direction, Position position) {
+    public void effacerCesTracesArriere(Direction direction, Position position, ArrayList<Case> listCase) {
         Position pos = new Position(0, 0);
         switch (direction) {
             case Nord:
@@ -43,7 +45,7 @@ public class Missile implements Case {
                 pos = robot.nextPosition(direction.Est, position);
                 break;
         }
-        if ("Missile".equals(robot.detecteurElement(pos))) {
+        if ("Missile".equals(robot.detecteurElement(pos, listCase))) {
             for (int i = 0; i < grille.getListCase().size(); i++) {
                 if (Position.egalite(grille.getListCase().get(i).position(), pos) == true) {
                     Missile missile = (Missile) grille.getListCase().get(i);
@@ -56,19 +58,19 @@ public class Missile implements Case {
         }
     }
 
-    public void seDeplacer(Direction direction, Position position) {
+    public void seDeplacer(Direction direction, Position position, ArrayList<Case> listCase) {
         String nom = "";
         this.position = robot.nextPosition(direction, position);
 
-        if (robot.existPosition(position)) {
-            nom = robot.detecteurElement(position);
+        if (robot.existPosition(position, listCase)) {
+            nom = robot.detecteurElement(position, listCase);
             switch (nom) {
                 case "CaseVide":
                     for (int i = 0; i < grille.getListCase().size(); i++) {
                         if (Position.egalite(grille.getListCase().get(i).position(), position) == true) {
                             grille.getListCase().set(i, new Missile(position, direction));
-                            effacerCesTracesArriere(direction, position);
-                            seDeplacer(direction, this.position);
+                            effacerCesTracesArriere(direction, position, listCase);
+                            seDeplacer(direction, this.position, listCase);
                         }
                     }
                     break;

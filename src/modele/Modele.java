@@ -12,5 +12,11 @@ import java.util.Observable;
  * @author 21416699
  */
 public class Modele extends Observable{
+
+    public Modele() {
+        
+    }
+    
+    
     
 }

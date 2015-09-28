@@ -5,6 +5,8 @@
  */
 package modele;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author 21416699
@@ -14,7 +16,6 @@ public class Robot implements Case {
     Position position;
     Missile missile;
     Direction direction;
-    Grille grille;
     private int energie;
     private int laser;
     private boolean bouclier = false;
@@ -41,23 +42,23 @@ public class Robot implements Case {
         this.nom = nom;
     }
 
-    public boolean existPosition(Position position) {
+    public boolean existPosition(Position position, ArrayList<Case> listCase) {
         boolean casePresent = false;
-        for (Case c : grille.getListCase()) {
-            if (Position.egalite(position, c.position())) {
+        for (Case c : listCase) {
+            if (Position.egalite(position, c.position()) == true) {
                 casePresent = true;
             }
         }
         return casePresent;
     }
-//
-    
-    public String detecteurElement(Position pos) {
+
+    public String detecteurElement(Position pos, ArrayList<Case> listCase) {
         String element = "";
-        if (existPosition(pos)) {
-            for (Case c : grille.getListCase()) {
-                if (Position.egalite(pos, c.position())) {
+        if (existPosition(pos, listCase)) {
+            for (Case c : listCase) {
+                if (Position.egalite(pos, c.position()) == true) {
                     element = c.toString();
+                    System.err.println("element "+element);
                 }
             }
         }
@@ -99,18 +100,23 @@ public class Robot implements Case {
 
     }
 
-    public void seDeplacer(Direction direction, Position position) {
+    public void seDeplacer(Direction direction, Position position, ArrayList<Case> listCase, Robot robot) {
+        System.err.println("entre "+position);
         Position pos = nextPosition(direction, position);
-
-        if (existPosition(pos)) {
-            if ("Case Vide".equals(detecteurElement(pos))) {
+        System.err.println("nouvelle position "+pos);
+        if (existPosition(pos, listCase)) {
+            System.err.println(" "+pos+" existe");
+            if ("Case Vide".equals(detecteurElement(pos, listCase))) {
                 // décide de faire feu ou marcher
+                System.err.println("case vide ");
+                robot.setPosition(pos);
+
             } else {
                 // lancement laser
             }
         } else {
-            this.setDirection(Direction.getRandomDirection());
-            seDeplacer(direction, position);
+            robot.setDirection(Direction.getRandomDirection());
+            seDeplacer(direction, position, listCase, robot);
             //CHangement de direction
         }
     }
