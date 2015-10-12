@@ -7,6 +7,8 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.Random;
+import vue.CaseGraphique;
+import vue.Images;
 
 /**
  *
@@ -27,7 +29,7 @@ public class Grille {
             emplacementRobot(hauteur, largeur);
         }
         for (Position list : listPositionRobots) {
-            Case caseRobot = new Robot(12, list, Direction.getRandomDirection(), Utils.nomRobot());
+            Case caseRobot = new Robot(20, list, Direction.getRandomDirection(), Utils.nomRobot());
             listRobot.add((Robot) caseRobot);
             listCase.add(caseRobot);
         }
@@ -39,7 +41,7 @@ public class Grille {
 
         int x = rand.nextInt(((largeur - 1) + 1) - 0);
         int y = rand.nextInt(((hauteur - 1) + 1) - 0);
-        position = new Position(x, y);
+        position = new Position(y, x);
 
         for (Position pos : listPositionRobots) {
             if (Position.egalite(pos, position)) {
@@ -54,8 +56,29 @@ public class Grille {
         return position;
     }
 
-    public boolean verifNbreRobot(int hauteur, int largeur, int nbreRobot) {
-        return (nbreRobot > hauteur * largeur);
+    public void actualisationDeLaListeGrille(Robot robot, Position oldPosition,
+            ArrayList<CaseGraphique> triListCaseGraphique, ArrayList<Robot> listRobot,
+            Images images) {
+
+        for (int i = 0; i < triListCaseGraphique.size(); i++) {
+
+            if ("Robot".equals(triListCaseGraphique.get(i).getCaze().toString())) {
+                if (Position.egalite(oldPosition, triListCaseGraphique.get(i).getCaze().position()) == true) {
+                    triListCaseGraphique.set(i, new CaseGraphique(new CaseVide(oldPosition), images.renvoiImages(new CaseVide(oldPosition)).getImage()));
+                }
+            }
+
+            if (Position.egalite(robot.getPosition(), triListCaseGraphique.get(i).getCaze().position()) == true) {
+                triListCaseGraphique.set(i, new CaseGraphique(robot, images.renvoiImages(robot).getImage()));
+                for (int j = 0; j < listRobot.size(); j++) {
+                    if (robot.getNom().equals(listRobot.get(j).getNom())) {
+                        listRobot.set(j, robot);
+                    }
+                }
+            }
+
+        }
+
     }
 
     public Grille(int hauteur, int largeur, int nbreRobots) {
@@ -63,21 +86,25 @@ public class Grille {
         creationRobot(hauteur, largeur, nbreRobots);
         int pointeur = 0;
 
-        for (int i = 0; i < largeur; i++) {
-            for (int j = 0; j < hauteur; j++) {
+        for (int j = 0; j < hauteur; j++) {
+            for (int i = 0; i < largeur; i++) {
 
                 for (Position posi : listPositionRobots) {
-                    if (Position.egalite(posi, new Position(i, j)) == false) {
+                    if (Position.egalite(posi, new Position(j, i)) == false) {
                         pointeur++;
                     }
                 }
                 if (pointeur == listPositionRobots.size()) {
-                    Case caseVide = new CaseVide(new Position(i, j));
+                    Case caseVide = new CaseVide(new Position(j, i));
                     listCase.add(caseVide);
                 }
                 pointeur = 0;
             }
         }
+
+    }
+
+    public Grille() {
 
     }
 

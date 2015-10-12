@@ -5,6 +5,8 @@
  */
 package robot;
 
+import controleur.Controleur;
+import modele.Modele;
 import vue.Vue;
 
 /**
@@ -15,36 +17,21 @@ public class Main {
 
     /**
      * @param args the command line arguments
+     * @throws java.lang.InterruptedException
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
-        // TODO code application logic here
-      // Grille grille = new Grille(3, 5, 3);
-       // System.out.println("taille "+grille.getListCase().size());
-        Vue vue = new Vue(3, 5, 1);
 
-//       for(Case r:grille.getListCase()){
-//           if("Robot".equals(r.toString())){
-//               Robot c=(Robot) r;
-//           //    System.out.println("***" + r.toString() +" "+ r.position()+" "+c.getNom());
-//           }
-//          
-//       }
-//       
-//       for(Position r:grille.getListPositionRobots()){
-//        //  System.out.println("##" +  r.toString());
-//       }
-//       
-//       for(Case r:grille.getListCase()){
-//      //  System.out.println( r.toString()+ r.position());
-//       }
-       
-//       System.out.println("taille "+grille.getListsNomRobot().size());
-//       for(String r:grille.getListsNomRobot()){
-//        System.out.println("nom " + r);
-//       }
-       
-      
+        Modele modele = new Modele();
+
+        Controleur controleur = new Controleur(modele);
+
+        Vue vue = new Vue(controleur);
+
+        modele.addObserver(vue);
+        
+        vue.voirlo();
+
     }
-    
+
 }

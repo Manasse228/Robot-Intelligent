@@ -18,6 +18,7 @@ import modele.Robot;
 public class Images {
 
     ImageIcon backgroung = new ImageIcon(System.getProperty("user.dir") + "/src/images/background.jpg");
+    ImageIcon explosion = new ImageIcon(System.getProperty("user.dir") + "/src/images/explosion.jpg");
     ImageIcon vide = new ImageIcon(System.getProperty("user.dir") + "/src/images/vide.jpg");
 
     ImageIcon robotEst = new ImageIcon(System.getProperty("user.dir") + "/src/images/robotEst.jpg");
@@ -56,9 +57,11 @@ public class Images {
     public ImageIcon directionMissile(Case caz) {
         ImageIcon imageIcon = backgroung;
         Missile missile = (Missile) caz;
+
         switch (missile.getDirection()) {
             case Est:
                 imageIcon = missileEst;
+
                 break;
             case Ouest:
                 imageIcon = missileOuest;
@@ -76,6 +79,10 @@ public class Images {
         return imageIcon;
     }
 
+    public ImageIcon renvoiImagesDecesRobot() {
+        return explosion;
+    }
+
     public ImageIcon renvoiImages(Case caz) {
         ImageIcon imageIcon = backgroung;
 
@@ -87,7 +94,7 @@ public class Images {
                 imageIcon = directionRobot(caz);
                 break;
             case "Missile":
-                directionMissile(caz);  
+                imageIcon = directionMissile(caz);
                 break;
             default:
                 break;

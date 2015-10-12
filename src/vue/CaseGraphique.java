@@ -14,7 +14,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import modele.Case;
-import modele.Position;
 
 /**
  *
@@ -27,6 +26,10 @@ public class CaseGraphique extends JPanel {
 
     public CaseGraphique(Case caze, Image image) {
         this.caze = caze;
+        this.img = image;
+    }
+
+    public CaseGraphique(Image image) {
         this.img = image;
     }
 
@@ -64,7 +67,5 @@ public class CaseGraphique extends JPanel {
     public void setCaze(Case caze) {
         this.caze = caze;
     }
-    
-    
 
 }

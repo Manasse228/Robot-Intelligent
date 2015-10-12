@@ -20,7 +20,7 @@ public class Robot implements Case {
     private int laser;
     private boolean bouclier = false;
     private boolean mort;
-    private boolean seDeplace;
+    private boolean repos;
     public String nom;
 
     @Override
@@ -36,10 +36,24 @@ public class Robot implements Case {
         this.energie = energie;
         this.position = position;
         this.mort = false;
-        this.seDeplace = false;
+        this.repos = false;
         this.bouclier = true;
         this.direction = direction;
         this.nom = nom;
+    }
+
+    public Robot() {
+
+    }
+
+    public boolean etatRobot(ArrayList<Robot> listRobot, Robot robot) {
+        boolean etat = false;
+        for (Robot r : listRobot) {
+            if (r.getNom().equals(robot.getNom())) {
+                etat = r.isMort();
+            }
+        }
+        return etat;
     }
 
     public boolean existPosition(Position position, ArrayList<Case> listCase) {
@@ -71,62 +85,86 @@ public class Robot implements Case {
         Position pos = new Position(0, 0);
         switch (direction) {
             case Nord:
-                pos = new Position(position.getX(), position.getY() - 1);
+                pos = new Position(position.getY() - 1, position.getX());
                 break;
             case Sud:
-                pos = new Position(position.getX(), position.getY() + 1);
+                pos = new Position(position.getY() + 1, position.getX());
                 break;
             case Est:
-                pos = new Position(position.getX() + 1, position.getY());
+                pos = new Position(position.getY(), position.getX() + 1);
                 break;
             case Ouest:
-                pos = new Position(position.getX() - 1, position.getY());
+                pos = new Position(position.getY(), position.getX() - 1);
                 break;
             default:
                 break;
         }
         return pos;
     }
-    /*
-     robot peut savoir s'il ya un autre robot sur sa ligne ou sur sa colonne
-     s'il ya personne il se déplace dans sa direction 
-     pour tourner le robot prend l'est ou l'ouest si sa direction est le nord
-     sil veut faire feu il va vérifier sil ya quelqun devant lui et si c'est le cas il lance laser sinon missile
-     */
 
-    // le robot est au repos sur son energie est < 10 
-    public void changementDeDirection() {
-
-    }
+    Robot rob = null;
 
     public Robot seDeplacer(Direction direction, Position position, ArrayList<Case> listCase, Robot robot) {
-        
-        Robot rob = null;
+
         Position pos = nextPosition(direction, position);
-        
+        rob = new Robot(robot.getEnergie(), position, direction, robot.getNom());
         if (existPosition(pos, listCase)) {
 
             String element = detecteurElement(pos, listCase);
-            switch(element){
+            switch (element) {
                 case "CaseVide":
-                    System.err.println("case vide "+pos);
-                   rob = new Robot(robot.getEnergie(), pos, robot.getDirection(),robot.getNom()); 
+                    rob = new Robot(robot.getEnergie() - 5, pos, direction, robot.getNom());
+//                    System.err.println("Robot position: " + rob.getPosition() + " direction: " + rob.getDirection() + " energie: " + rob.getEnergie() + " nom: " + rob.getNom());
                     break;
                 case "Robot":
-                    
+
                     break;
                 case "Missile":
-                    
+
                     break;
-                  
+
             }
         } else {
-            robot.setDirection(Direction.getRandomDirection());
-//            System.err.println("Nouvelle direction "+)
-            seDeplacer(direction, position, listCase, robot);
-            //CHangement de direction
+//            for (PositionDirection positionDirection : listPositionPossible(position, listCase)) {
+//                System.err.println("Me voici " + positionDirection);
+//            }
+// Random rand = new Random();
+//            int i = rand.nextInt(((listPositionPossible(position, listCase).size() - 1) + 1) - 0);
+//            PositionDirection positionDirection = listPositionPossible(position, listCase).get(i);
+//            return rob = new Robot(robot.getEnergie(), positionDirection.position, positionDirection.direction, robot.getNom());
+            return rob = new Robot(robot.getEnergie(), position, direction, robot.getNom());
         }
+
         return rob;
+    }
+
+    protected class PositionDirection {
+
+        Direction direction;
+        Position position;
+
+        public PositionDirection(Direction direction, Position position) {
+            this.direction = direction;
+            this.position = position;
+        }
+
+        @Override
+        public String toString() {
+            return "Direction " + direction + "Position " + position;
+        }
+
+    }
+
+    public ArrayList<PositionDirection> listPositionPossible(Position positionOriginal, ArrayList<Case> listCase) {
+        Position position;
+        ArrayList<PositionDirection> list = new ArrayList<>();
+        for (Direction dir : Direction.values()) {
+            position = nextPosition(dir, positionOriginal);
+            if (existPosition(position, listCase) == true) {
+                list.add(new PositionDirection(dir, position));
+            }
+        }
+        return list;
     }
 
     public void attaquer(Robot robot) {
@@ -135,6 +173,16 @@ public class Robot implements Case {
         } else {
             robot.setEnergie(0);
         }
+    }
+
+    public int recuperationEnergie(Robot robot) throws InterruptedException {
+        System.err.println("Energie robot " + robot.getEnergie());
+        if (robot.getEnergie() < 15) {
+            Thread.sleep(6000);
+        } else {
+            return 2;
+        }
+        return 1;
     }
 
     public void activerBouclier(Robot robot) {
@@ -201,12 +249,12 @@ public class Robot implements Case {
         this.mort = mort;
     }
 
-    public boolean isSeDeplace() {
-        return seDeplace;
+    public boolean isRepos() {
+        return repos;
     }
 
-    public void setSeDeplace(boolean seDeplace) {
-        this.seDeplace = seDeplace;
+    public void setRepos(boolean repos) {
+        this.repos = repos;
     }
 
     public String getNom() {

@@ -5,13 +5,18 @@
  */
 package vue;
 
+import controleur.Controleur;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.ImageIcon;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -19,7 +24,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import modele.Case;
 import modele.CaseVide;
+import modele.Direction;
 import modele.Grille;
+import modele.Missile;
+import modele.Partie;
 import modele.Position;
 import modele.Robot;
 
@@ -29,12 +37,18 @@ import modele.Robot;
  */
 public class Vue extends JFrame implements Observer {
 
-    Grille grille;
-    ArrayList<CaseGraphique> listCaseGraphique = new ArrayList<CaseGraphique>();
-    ArrayList<CaseGraphique> triListCaseGraphique = new ArrayList<CaseGraphique>();
+    Grille grille = new Grille();
+    Position position;
+    Robot robot = new Robot();
     Images images = new Images();
+    Controleur controleur;
+    JPanel jpanelGauche, jpanelDroite;
+    JPanel contentPanel = new JPanel();
 
-    public Vue(int hauteur, int largeur, int nbreRobot) {
+    public Vue(Controleur controleur) throws InterruptedException {
+        this.controleur = controleur;
+
+        this.controleur.demarrer(2, 2, 2);
 
         this.setTitle("Robot");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -43,90 +57,129 @@ public class Vue extends JFrame implements Observer {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
-        grille = new Grille(hauteur, largeur, nbreRobot);
         menu();
-        setLayout(new GridLayout(hauteur, largeur));
-        afficherCase(hauteur, largeur);
-        
+
+        jpanelDroite = new JPanel();
+        jpanelDroite.setLayout(new GridLayout(2, 2, 2, 2));
+        afficherCase(controleur);
+
+        jpanelGauche = new JPanel();
+        JButton bb = new JButton("missile");
+        jpanelGauche.add(bb);
+        jpanelGauche.setBackground(Color.red);
+
+        contentPanel.add(jpanelGauche);
+        contentPanel.add(jpanelDroite);
+        contentPanel.setLayout(new GridLayout(1, 2));
+
+        this.setContentPane(contentPanel);
+
         this.setVisible(true);
+
+//        for (Robot roboti : this.controleur.getModele().getPartie().getListRobot()) {
+//            Missile missile = new Missile(roboti.getPosition(), roboti.getDirection());
+//            missile.seDeplacer(roboti.getDirection(), roboti.getPosition(), this.controleur.getModele().getPartie(), images);
+//
+//        }
+//        for (int i = 0; i < 6; i++) {
+//
+//            mouvementRobot(this.controleur.modele.getPartie());
+//            this.controleur.getModele().notifyObserver(2);
+//            this.revalidate();
+//            this.repaint();
+//            Thread.sleep(1000);
+//            this.jpanelDroite.removeAll();
+//            for (CaseGraphique caseGraphique : this.controleur.modele.getPartie().getTriListCaseGraphique()) {
+//                this.jpanelDroite.add(caseGraphique);
+//            }
+//
+//        }
     }
 
-    public void mouvementRobot() {
-         for (Case caseGraphique : grille.getListCase()) {
-        System.out.println("Avant Position " + caseGraphique.position() + " et je suis " + caseGraphique.toString());
-        }
-        
-        for (Robot robot : grille.getListRobot()) {
-            System.err.println("entre "+robot.position()+" direction "+robot.getDirection());
-            Position oldPosition = robot.getPosition();
+    public void voirlo() throws InterruptedException {
 
-            robot = robot.seDeplacer(robot.getDirection(), robot.getPosition(), grille.getListCase(), robot);
-            System.err.println("sortie "+robot.position());
-            actualisationDeLaListeGrille(robot, oldPosition);
-            
-             for (Case caseGraphique : grille.getListCase()) {
-          System.out.println("Après Position " + caseGraphique.position() + " et je suis " + caseGraphique.toString());
-        }
-        }
-
-    }
-
-    public void actualisationDeLaListeGrille(Robot robot, Position oldPosition) {
-        for (int i = 0; i < grille.getListCase().size(); i++) {
-
-            if ("Robot".equals(grille.getListCase().get(i).toString())) {
-
-                if (Position.egalite(oldPosition, grille.getListCase().get(i).position()) == true) {
-                    grille.getListCase().set(i, new CaseVide(oldPosition));
-                   
-                }
-                 grille.getListCase().set(i, robot);
+        /*
+         Je parcours la liste des robots avec un itérateur parce que la liste 
+         peut se modifier à tout moment c'est à dire si un robot tue un robot faut 
+         que le robot mort sort de la liste
+         */
+        Iterator it = this.controleur.getModele().getPartie().getListRobot().iterator();
+        while (it.hasNext()) {
+            Robot roboti = (Robot) it.next();
+//        }
+//        for (Robot roboti : this.controleur.getModele().getPartie().getListRobot()) {
+            if (robot.etatRobot(this.controleur.getModele().getPartie().getListRobot(), roboti) == true) {
+                it.remove();
+            } else {
+                Missile missile = new Missile(roboti.getPosition(), roboti.getDirection());
+                this.controleur.getModele().lancerMissile(roboti.getDirection(), roboti.getPosition(), this.controleur.getModele().getPartie(), images, missile);
+                this.controleur.getModele().notifyObserver();
+                
             }
 
         }
+        it = this.controleur.getModele().getPartie().getListRobot().iterator();
+        while (it.hasNext()) {
+            Robot roboti = (Robot) it.next();
+            System.err.println("Robot position "+roboti.getPosition()+" et il est "+roboti.isMort());
+        }
         
+
+//        for (int i = 0; i < 6; i++) {
+//            mouvementRobot(this.controleur.modele.getPartie());
+//            this.controleur.getModele().notifyObserver();
+//        }
     }
 
-    public void afficherCase(int hauteur, int largeur) {
+    public void mouvementRobot(Partie partie) throws InterruptedException {
 
-        for (Case caz : grille.getListCase()) {
-            listCaseGraphique.add(new CaseGraphique(caz, images.renvoiImages(caz).getImage()));
-        }
+//        try {
+        //  while (listRobot.size() >= 1) {
+        for (Robot roboti : partie.getListRobot()) {
 
-        for (int i = 0; i < largeur; i++) {
-            for (int j = 0; j < hauteur; j++) {
-                for (CaseGraphique caseGraphique : listCaseGraphique) {
+//                if ((roboti.getEnergie() > 5) && (roboti.isRepos() == false)) {
+            Position oldPosition = roboti.getPosition();
+            roboti = roboti.seDeplacer(roboti.getDirection(), roboti.getPosition(), partie.getListBloc(), roboti);
 
-                    if (Position.egalite(caseGraphique.getCaze().position(), new Position(i, j)) == true) {
-                        triListCaseGraphique.add(caseGraphique);
-                    }
-                }
+            if (roboti.getPosition() != oldPosition) {
+                grille.actualisationDeLaListeGrille(roboti, oldPosition,
+                        controleur.modele.getPartie().getTriListCaseGraphique(), partie.getListRobot(), images);
 
             }
+//                } else {
+//                    roboti.setRepos(true);
+//                    roboti.setBouclier(false);
+//                    if (roboti.recuperationEnergie(roboti) == 1) {
+//                        roboti.setEnergie(roboti.getEnergie() + 1);
+//                    } else {
+//                        roboti.setRepos(false);
+//                        roboti.setBouclier(true);
+//                    }
+//
+//                }
+
+        }
+        // }
+
+    }
+
+    public void afficherCase(Controleur controleur) {
+
+        for (CaseGraphique caseGraphique : controleur.modele.getPartie().getTriListCaseGraphique()) {
+            this.jpanelDroite.add(caseGraphique);
         }
 
-        for (CaseGraphique caseGraphique : triListCaseGraphique) {
-            this.getContentPane().add(caseGraphique);
-        }
-
-        for (Case caseGraphique : grille.getListCase()) {
-         // System.out.println("Avant Position " + caseGraphique.position() + " et je suis " + caseGraphique.toString());
-        }
-       mouvementRobot();
-        
-        for (Case caseGraphique : grille.getListCase()) {
-         // System.out.println("Après Position " + caseGraphique.position() + " et je suis " + caseGraphique.toString());
-        }
     }
 
     public void menu() {
+
         JMenuBar menuBar = new JMenuBar();
 
         JMenu jMenu = new JMenu("Menu");
         JMenu jMenu1 = new JMenu("Menu1");
         JMenu jMenu2 = new JMenu("Menu2");
 
-        JMenuItem jMenuItem = new JMenuItem("cool");
+        JMenuItem jMenuItem = new JMenuItem();
         JMenuItem jMenuItem1 = new JMenuItem("cool");
         JMenuItem jMenuItem2 = new JMenuItem("cool");
 
@@ -140,8 +193,31 @@ public class Vue extends JFrame implements Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(Observable o, Object obj) {
+        Partie partie = ((Partie) obj);	// Recuperation de la partie envoyee par le modele
+
+        this.revalidate();
+        this.repaint();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Vue.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        this.jpanelDroite.removeAll();
+        //this.controleur.modele.getPartie().getTriListCaseGraphique()
+        for (CaseGraphique caseGraphique : partie.getTriListCaseGraphique()) {
+            this.jpanelDroite.add(caseGraphique);
+        }
+
+    }
+
+    public Controleur getControleur() {
+        return controleur;
+    }
+
+    public void setControleur(Controleur controleur) {
+        this.controleur = controleur;
     }
 
 }

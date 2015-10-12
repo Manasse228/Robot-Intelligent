@@ -6,15 +6,74 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import vue.CaseGraphique;
 
 /**
  *
  * @author 21416699
  */
 public class Partie {
-    
-    ArrayList<CaseVide> listBloc = new ArrayList<CaseVide>();
-    
-    
+
+    ArrayList<Case> listBloc;
+    ArrayList<Robot> listRobot;
+    ArrayList<CaseGraphique> listCaseGraphique;
+    ArrayList<CaseGraphique> triListCaseGraphique;
+    private int notif;
+
+    public Partie() {
+        listBloc = new ArrayList<>();
+        listRobot = new ArrayList<>();
+        listCaseGraphique = new ArrayList<>();
+        triListCaseGraphique = new ArrayList<>();
+    }
+
+    public Partie(ArrayList<Case> listBloc, ArrayList<Robot> listRObot, ArrayList<CaseGraphique> listCaseGraphique, ArrayList<CaseGraphique>  triListCaseGraphique) {
+        this.listBloc = listBloc;
+        this.listRobot = listRObot;
+        this.listCaseGraphique = listCaseGraphique;
+        this.triListCaseGraphique = triListCaseGraphique;
+    }
+
+    public ArrayList<Case> getListBloc() {
+        return listBloc;
+    }
+
+    public void setListBloc(ArrayList<Case> listBloc) {
+        this.listBloc = listBloc;
+    }
+
+    public ArrayList<Robot> getListRobot() {
+        return listRobot;
+    }
+
+    public void setListRobot(ArrayList<Robot> listRobot) {
+        this.listRobot = listRobot;
+    }
+
+    public int getNotif() {
+        return notif;
+    }
+
+    public void setNotif(int notif) {
+        this.notif = notif;
+    }
+
+    public ArrayList<CaseGraphique> getListCaseGraphique() {
+        return listCaseGraphique;
+    }
+
+    public void setListCaseGraphique(ArrayList<CaseGraphique> listCaseGraphique) {
+        this.listCaseGraphique = listCaseGraphique;
+    }
+
+    public ArrayList<CaseGraphique> getTriListCaseGraphique() {
+        return triListCaseGraphique;
+    }
+
+    public void setTriListCaseGraphique(ArrayList<CaseGraphique> triListCaseGraphique) {
+        this.triListCaseGraphique = triListCaseGraphique;
+    }
+
     
 }

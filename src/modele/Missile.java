@@ -6,6 +6,8 @@
 package modele;
 
 import java.util.ArrayList;
+import vue.CaseGraphique;
+import vue.Images;
 
 /**
  *
@@ -15,7 +17,7 @@ public class Missile implements Case {
 
     Position position;
     Grille grille;
-    Robot robot;
+    Robot robot = new Robot();
     Direction direction;
 
     @Override
@@ -26,10 +28,21 @@ public class Missile implements Case {
     public Missile(Position position, Direction direction) {
         this.position = position;
         this.direction = direction;
-
     }
 
-    public void effacerCesTracesArriere(Direction direction, Position position, ArrayList<Case> listCase) {
+    public String detecteurElement(Position pos, ArrayList<CaseGraphique> listCaseGraphique) {
+        String element = "";
+            for (CaseGraphique c : listCaseGraphique) {
+                if (Position.egalite(pos, c.getCaze().position()) == true) {
+                    element = c.getCaze().toString();
+                }
+            }
+        return element;
+    }
+    /*
+     Si un missile se déplace faut effacer ces traces c'est à dire ces traces lol
+     */
+    public void effacerCesTracesArriere(Direction direction, Position position, Partie partie, Images images) {
         Position pos = new Position(0, 0);
         switch (direction) {
             case Nord:
@@ -45,48 +58,62 @@ public class Missile implements Case {
                 pos = robot.nextPosition(direction.Est, position);
                 break;
         }
-        if ("Missile".equals(robot.detecteurElement(pos, listCase))) {
-            for (int i = 0; i < grille.getListCase().size(); i++) {
-                if (Position.egalite(grille.getListCase().get(i).position(), pos) == true) {
-                    Missile missile = (Missile) grille.getListCase().get(i);
+
+        if ("Missile".equals(detecteurElement(pos, partie.getTriListCaseGraphique()))) {
+            for (int i = 0; i < partie.getTriListCaseGraphique().size(); i++) {
+                if (Position.egalite(partie.getTriListCaseGraphique().get(i).getCaze().position(), pos) == true) {
+                    Missile missile = (Missile) partie.getTriListCaseGraphique().get(i).getCaze();
                     if (missile.direction == direction) {
-                        grille.getListCase().set(i, new CaseVide(position));
+                        partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(pos), images.renvoiImages(new CaseVide(pos)).getImage()));
                     }
-// si par hasard deux missiles se suivent le dernier peut être 
                 }
             }
         }
     }
 
-    public void seDeplacer(Direction direction, Position position, ArrayList<Case> listCase) {
-        String nom = "";
+    /*
+     Déplacement d'une missile Fonction déja utilisée au niveau de la vue donc ne pas toucher Merci
+     */
+    public void seDeplacer(Direction direction, Position position, Partie partie, Images images) {
         this.position = robot.nextPosition(direction, position);
-
-        if (robot.existPosition(position, listCase)) {
-            nom = robot.detecteurElement(position, listCase);
-            switch (nom) {
+        
+        if (robot.existPosition(this.position, partie.getListBloc())) {
+            String element = detecteurElement(this.position, partie.getTriListCaseGraphique());
+            switch (element) {
                 case "CaseVide":
-                    for (int i = 0; i < grille.getListCase().size(); i++) {
-                        if (Position.egalite(grille.getListCase().get(i).position(), position) == true) {
-                            grille.getListCase().set(i, new Missile(position, direction));
-                            effacerCesTracesArriere(direction, position, listCase);
-                            seDeplacer(direction, this.position, listCase);
+                    /*
+                     Dans le cas ou le missile veut accéder à une case vide
+                     */
+                    for (int i = 0; i < partie.getTriListCaseGraphique().size(); i++) {
+                        if (Position.egalite(partie.getTriListCaseGraphique().get(i).getCaze().position(), this.position) == true) {
+                            Missile missile = new Missile(this.position, direction);
+                            partie.getTriListCaseGraphique().set(i, new CaseGraphique(missile, images.renvoiImages(missile).getImage()));
+                            
+                            effacerCesTracesArriere(direction, this.position, partie, images);
+                            seDeplacer(direction, this.position, partie, images);
                         }
                     }
                     break;
                 case "Robot":
-                    for (int i = 0; i < grille.getListCase().size(); i++) {
-                        if (Position.egalite(grille.getListCase().get(i).position(), position) == true) {
+                    /*
+                     Dans le cas ou le missile a un robot devant lui
+                     */
+                    for (int i = 0; i < partie.getListBloc().size(); i++) {
+                        if (Position.egalite(partie.getListBloc().get(i).position(), this.position) == true) {
                             //le robot en question peut mourir et on change sa position par une cae vide
-                            grille.getListCase().set(i, new CaseVide(position));
+                            partie.getListBloc().set(i, new CaseVide(this.position));
                         }
                     }
                     break;
                 case "Missile":
-                    for (int i = 0; i < grille.getListCase().size(); i++) {
-                        if (Position.egalite(grille.getListCase().get(i).position(), position) == true) {
+                    /*
+                     Dans le cas ou deux missiles se rencontrent
+                     */
+                    for (int i = 0; i < partie.getListBloc().size(); i++) {
+                        if (Position.egalite(partie.getListBloc().get(i).position(), this.position) == true) {
                             //deux missiles se rencontre 
-                            grille.getListCase().set(i, new CaseVide(position));
+                            partie.getListBloc().set(i, new CaseVide(this.position));
+                            partie.getListBloc().set(i, new CaseVide(position));
                         }
                     }
                     break;
@@ -94,7 +121,7 @@ public class Missile implements Case {
                     break;
             }
         } else {//le missile sort de al grille
-
+            System.err.println("Missile sort");
         }
     }
 
@@ -122,7 +149,5 @@ public class Missile implements Case {
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
-    
-    
 
 }
