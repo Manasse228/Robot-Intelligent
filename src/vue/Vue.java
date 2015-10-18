@@ -48,7 +48,7 @@ public class Vue extends JFrame implements Observer {
     public Vue(Controleur controleur) throws InterruptedException {
         this.controleur = controleur;
 
-        this.controleur.demarrer(5, 5, 4);
+        this.controleur.demarrer(5, 5, 12);
 
         this.setTitle("Robot");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -91,7 +91,7 @@ public class Vue extends JFrame implements Observer {
             Robot robo = iteRobot.next();
             Strategy strategy = new StgLancerMissile(this.controleur.getModele().getPartie(), robo);
             strategy.renvoyerPartie();
-            this.controleur.getModele().notifyObserver();
+           this.controleur.getModele().notifyObserver();
         }
 
         this.controleur.getModele().notifyObserver();
@@ -120,8 +120,6 @@ public class Vue extends JFrame implements Observer {
                 }
             }
             listMissileForDelete.clear();
-
-            this.controleur.getModele().notifyObserver();
         }
         listMissileForDelete2.clear();
         this.controleur.getModele().notifyObserver();

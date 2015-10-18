@@ -123,7 +123,6 @@ public class Missile implements Case {
                             partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(position),
                                     images.renvoiImages(new CaseVide(position)).getImage()));
                         }
-                        controleur.getModele().notifyObserver();
 
                         if (Position.egalite(partie.getTriListCaseGraphique().get(i).getCaze().position(), nvlePosition) == true) {
                             Robot rob = (Robot) partie.getTriListCaseGraphique().get(i).getCaze();
@@ -177,7 +176,6 @@ public class Missile implements Case {
                                 }
                             }
                         }
-                        controleur.getModele().notifyObserver();
 
                         if (Position.egalite(partie.getTriListCaseGraphique().get(i).getCaze().position(), nvlePosition) == true) {
                             Missile mis = (Missile) partie.getTriListCaseGraphique().get(i).getCaze();
@@ -187,7 +185,6 @@ public class Missile implements Case {
                             /*une pause d'affichage à ce niveau et après on affiche du vide*/
                             partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(nvlePosition),
                                     images.renvoiImages(new CaseVide(nvlePosition)).getImage()));
-                            controleur.getModele().notifyObserver();
 
                             for (Missile m : partie.getListMissile()) {
                                 if (m.getNom().equals(mis.getNom())) {
@@ -215,7 +212,7 @@ public class Missile implements Case {
              On retire de la liste des missiles le missile qui vient de quitter la grille
              */
             for (Missile mis : partie.getListMissile()) {
-                if (mis.getNom().equals(nom)) {
+                if (mis.getNom().equals(this.nom)) {
                     listMissileForDelete.add(mis);
                 }
             }

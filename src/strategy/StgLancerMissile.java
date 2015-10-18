@@ -25,28 +25,27 @@ public class StgLancerMissile implements Strategy {
     Direction direction;
     Position position, positionInitiale;
     String nom;
-    Robot robot = new Robot();
     Robot roboti;
-    Missile missile = new Missile();
+    Missile missile;
     Images images = new Images();
 
     public StgLancerMissile(Partie partie, Robot robot) {
+        missile = new Missile();
+
         this.partie = partie;
         this.roboti = robot;
-
-        this.direction = this.roboti.getDirection();
-        this.position = this.roboti.getPosition();
-        positionInitiale = this.position;
         this.nom = this.roboti.getNom();
+        this.direction = this.roboti.getDirection();
+        positionInitiale = robot.getPosition();
     }
 
     @Override
     public Partie renvoyerPartie() {
 
-        this.position = robot.nextPosition(this.direction, this.position);
+        position = roboti.nextPosition(this.direction, positionInitiale);
 
-        if (robot.existPosition(this.position, this.partie.getListBloc())) {
-            String element = missile.detecteurElement(this.position, this.partie.getTriListCaseGraphique());
+        if (roboti.existPosition(position, this.partie.getListBloc())) {
+            String element = missile.detecteurElement(position, this.partie.getTriListCaseGraphique());
             this.roboti.setEnergie(this.roboti.getEnergie() - 1);
             switch (element) {
                 case "CaseVide":
@@ -54,8 +53,8 @@ public class StgLancerMissile implements Strategy {
                      Dans le cas ou le missile veut accéder à une case vide
                      */
                     for (int i = 0; i < this.partie.getTriListCaseGraphique().size(); i++) {
-                        if (Position.egalite(this.partie.getTriListCaseGraphique().get(i).getCaze().position(), this.position) == true) {
-                            missile = new Missile(this.position, this.direction, this.nom);
+                        if (Position.egalite(this.partie.getTriListCaseGraphique().get(i).getCaze().position(), position) == true) {
+                            missile = new Missile(position, this.direction, this.nom);
                             this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(missile, images.renvoiImages(missile).getImage()));
                             this.partie.getListMissile().add(missile);
                         }
@@ -96,26 +95,18 @@ public class StgLancerMissile implements Strategy {
                      Dans le cas ou deux missiles se rencontrent
                      */
                     for (int i = 0; i < this.partie.getTriListCaseGraphique().size(); i++) {
-
-                        if (Position.egalite(this.partie.getTriListCaseGraphique().get(i).getCaze().position(), this.position) == true) {
-
+                        if (Position.egalite(this.partie.getTriListCaseGraphique().get(i).getCaze().position(), position) == true) {
                             //Affichage d'une image de collision de deux missile
-                            this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(images.renvoiImagesCollisionMissile().getImage()));
+//                            this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(images.renvoiImagesCollisionMissile().getImage()));
                             /*une pause d'affichage à ce niveau et après on affiche du vide*/
-                            this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(this.position),
-                                    images.renvoiImages(new CaseVide(this.position)).getImage()));
+                            this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(position),
+                                    images.renvoiImages(new CaseVide(position)).getImage()));
 
                             Iterator<Missile> iteMisssile = partie.getListMissile().iterator();
                             while (iteMisssile.hasNext()) {
                                 Missile mis = iteMisssile.next();
-                                if (mis.getNom().equals(nom)) {
+                                if (Position.egalite(position, mis.getPosition()) == true) {
                                     iteMisssile.remove();
-                                } else {
-                                    if (Position.egalite(positionInitiale, mis.getPosition())) {
-                                        iteMisssile.remove();
-                                        this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(positionInitiale),
-                                                images.renvoiImages(new CaseVide(positionInitiale)).getImage()));
-                                    }
                                 }
                             }
                         }
