@@ -22,14 +22,13 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import modele.Case;
-import modele.CaseVide;
-import modele.Direction;
 import modele.Grille;
 import modele.Missile;
 import modele.Partie;
 import modele.Position;
 import modele.Robot;
+import strategy.StgLancerMissile;
+import strategy.Strategy;
 
 /**
  *
@@ -44,11 +43,12 @@ public class Vue extends JFrame implements Observer {
     Controleur controleur;
     JPanel jpanelGauche, jpanelDroite;
     JPanel contentPanel = new JPanel();
+    ArrayList<Missile> listMissileForDelete, listMissileForDelete2 = new ArrayList<>();
 
     public Vue(Controleur controleur) throws InterruptedException {
         this.controleur = controleur;
 
-        this.controleur.demarrer(2, 2, 2);
+        this.controleur.demarrer(5, 5, 4);
 
         this.setTitle("Robot");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -60,7 +60,7 @@ public class Vue extends JFrame implements Observer {
         menu();
 
         jpanelDroite = new JPanel();
-        jpanelDroite.setLayout(new GridLayout(2, 2, 2, 2));
+        jpanelDroite.setLayout(new GridLayout(5, 5, 2, 2));
         afficherCase(controleur);
 
         jpanelGauche = new JPanel();
@@ -75,60 +75,66 @@ public class Vue extends JFrame implements Observer {
         this.setContentPane(contentPanel);
 
         this.setVisible(true);
-
-//        for (Robot roboti : this.controleur.getModele().getPartie().getListRobot()) {
-//            Missile missile = new Missile(roboti.getPosition(), roboti.getDirection());
-//            missile.seDeplacer(roboti.getDirection(), roboti.getPosition(), this.controleur.getModele().getPartie(), images);
-//
-//        }
-//        for (int i = 0; i < 6; i++) {
-//
-//            mouvementRobot(this.controleur.modele.getPartie());
-//            this.controleur.getModele().notifyObserver(2);
-//            this.revalidate();
-//            this.repaint();
-//            Thread.sleep(1000);
-//            this.jpanelDroite.removeAll();
-//            for (CaseGraphique caseGraphique : this.controleur.modele.getPartie().getTriListCaseGraphique()) {
-//                this.jpanelDroite.add(caseGraphique);
-//            }
-//
-//        }
     }
 
     public void voirlo() throws InterruptedException {
 
-        /*
-         Je parcours la liste des robots avec un itérateur parce que la liste 
-         peut se modifier à tout moment c'est à dire si un robot tue un robot faut 
-         que le robot mort sort de la liste
-         */
-        Iterator it = this.controleur.getModele().getPartie().getListRobot().iterator();
-        while (it.hasNext()) {
-            Robot roboti = (Robot) it.next();
-//        }
-//        for (Robot roboti : this.controleur.getModele().getPartie().getListRobot()) {
-            if (robot.etatRobot(this.controleur.getModele().getPartie().getListRobot(), roboti) == true) {
-                it.remove();
+        Iterator<Robot> iter = this.controleur.getModele().getPartie().getListRobot().iterator();
+        while (iter.hasNext()) {
+            Robot robo = iter.next();
+            System.err.println(" Avant Nom " + robo.getNom()
+                    + " Position " + robo.getPosition() + " Direction " + robo.getDirection() + " energie " + robo.getEnergie());
+        }
+
+        Iterator<Robot> iteRobot = this.controleur.getModele().getPartie().getListRobot().iterator();
+        while (iteRobot.hasNext()) {
+            Robot robo = iteRobot.next();
+            Strategy strategy = new StgLancerMissile(this.controleur.getModele().getPartie(), robo);
+            strategy.renvoyerPartie();
+            this.controleur.getModele().notifyObserver();
+        }
+
+        this.controleur.getModele().notifyObserver();
+
+        Iterator<Missile> iteMisssile = this.controleur.getModele().getPartie().getListMissile().iterator();
+        while (iteMisssile.hasNext()) {
+
+            Missile mis = iteMisssile.next();
+
+            if ((!listMissileForDelete2.isEmpty()) && (listMissileForDelete2.contains(mis))) {
+                iteMisssile.remove();
             } else {
-                Missile missile = new Missile(roboti.getPosition(), roboti.getDirection());
-                this.controleur.getModele().lancerMissile(roboti.getDirection(), roboti.getPosition(), this.controleur.getModele().getPartie(), images, missile);
-                this.controleur.getModele().notifyObserver();
-                
+                listMissileForDelete = mis.seDeplacer(mis.getDirection(), mis.getPosition(),
+                        this.controleur.getModele().getPartie(), images, mis.getNom(), this.controleur);
             }
 
-        }
-        it = this.controleur.getModele().getPartie().getListRobot().iterator();
-        while (it.hasNext()) {
-            Robot roboti = (Robot) it.next();
-            System.err.println("Robot position "+roboti.getPosition()+" et il est "+roboti.isMort());
-        }
-        
+            if (listMissileForDelete.size() == 1) {
+                iteMisssile.remove();
+            } else {
+                for (int i = 0; i < listMissileForDelete.size(); i++) {
+                    if (listMissileForDelete.get(i).getNom().equals(mis.getNom())) {
+                        iteMisssile.remove();
+                    } else {
+                        listMissileForDelete2.add(listMissileForDelete.get(i));
+                    }
+                }
+            }
+            listMissileForDelete.clear();
 
-//        for (int i = 0; i < 6; i++) {
-//            mouvementRobot(this.controleur.modele.getPartie());
-//            this.controleur.getModele().notifyObserver();
-//        }
+            this.controleur.getModele().notifyObserver();
+        }
+        listMissileForDelete2.clear();
+        this.controleur.getModele().notifyObserver();
+
+        Iterator<Robot> iter2 = this.controleur.getModele().getPartie().getListRobot().iterator();
+        while (iter2.hasNext()) {
+            Robot robo = iter2.next();
+            System.err.println(" Après Nom " + robo.getNom()
+                    + " Position " + robo.getPosition() + " Direction " + robo.getDirection() + " energie " + robo.getEnergie());
+        }
+
+        System.err.println("taille finale de missile " + this.controleur.getModele().getPartie().getListMissile().size());
+
     }
 
     public void mouvementRobot(Partie partie) throws InterruptedException {

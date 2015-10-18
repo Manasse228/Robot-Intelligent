@@ -6,6 +6,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -129,7 +130,9 @@ public class Robot implements Case {
 //                System.err.println("Me voici " + positionDirection);
 //            }
 // Random rand = new Random();
+// System.out.println("taille "+listPositionPossible(position, listCase).size() );
 //            int i = rand.nextInt(((listPositionPossible(position, listCase).size() - 1) + 1) - 0);
+//            System.out.println("sort "+i);
 //            PositionDirection positionDirection = listPositionPossible(position, listCase).get(i);
 //            return rob = new Robot(robot.getEnergie(), positionDirection.position, positionDirection.direction, robot.getNom());
             return rob = new Robot(robot.getEnergie(), position, direction, robot.getNom());

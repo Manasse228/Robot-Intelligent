@@ -70,9 +70,9 @@ public class Modele extends Observable {
                      */
                     for (int i = 0; i < partie.getTriListCaseGraphique().size(); i++) {
                         if (Position.egalite(partie.getTriListCaseGraphique().get(i).getCaze().position(), this.position) == true) {
-                            Missile missile = new Missile(this.position, direction);
+//                            Missile missile = new Missile(this.position, direction);
                             partie.getTriListCaseGraphique().set(i, new CaseGraphique(missile, images.renvoiImages(missile).getImage()));
-                            missileParam.effacerCesTracesArriere(direction, this.position, partie, images);
+//                            missileParam.effacerCesTracesArriere(direction, this.position, partie, images);
                             notifyObserver();
                             lancerMissile(direction, this.position, partie, images, missileParam);
                         }
@@ -85,9 +85,11 @@ public class Modele extends Observable {
                     for (int i = 0; i < partie.getTriListCaseGraphique().size(); i++) {
                         if (Position.egalite(partie.getTriListCaseGraphique().get(i).getCaze().position(), this.position) == true) {
                             //le robot en question peut mourir et on change sa position par une cae vide
-                            partie.getTriListCaseGraphique().set(i, new CaseGraphique(images.renvoiImagesDecesRobot().getImage()));
+//                            missileParam.effacerCesTracesArriere(direction, this.position, partie, images);
+                            partie.getTriListCaseGraphique().set(i, new CaseGraphique(images.renvoiImagesRobotTue().getImage()));
                             notifyObserver();
                             Thread.sleep(2000);
+                            
                             partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(this.position),
                                     images.renvoiImages(new CaseVide(this.position)).getImage()));
                             partie.getListBloc().set(i, new CaseVide(this.position));
@@ -121,7 +123,7 @@ public class Modele extends Observable {
                     break;
             }
         } else {//le missile sort de al grille
-            missileParam.effacerCesTracesArriere(direction, this.position, partie, images);
+//            missileParam.effacerCesTracesArriere(direction, this.position, partie, images);
             notifyObserver();
             System.err.println("Missile sort");
         }
@@ -136,7 +138,6 @@ public class Modele extends Observable {
 
     @Override
     public void addObserver(Observer obs) {
-        System.err.println("cool");
         this.listObserver.add(obs);
     }
 

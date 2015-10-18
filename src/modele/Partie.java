@@ -19,6 +19,7 @@ public class Partie {
     ArrayList<Robot> listRobot;
     ArrayList<CaseGraphique> listCaseGraphique;
     ArrayList<CaseGraphique> triListCaseGraphique;
+    ArrayList<Missile> listMissile;
     private int notif;
 
     public Partie() {
@@ -26,9 +27,10 @@ public class Partie {
         listRobot = new ArrayList<>();
         listCaseGraphique = new ArrayList<>();
         triListCaseGraphique = new ArrayList<>();
+        listMissile = new ArrayList<>();
     }
 
-    public Partie(ArrayList<Case> listBloc, ArrayList<Robot> listRObot, ArrayList<CaseGraphique> listCaseGraphique, ArrayList<CaseGraphique>  triListCaseGraphique) {
+    public Partie(ArrayList<Case> listBloc, ArrayList<Robot> listRObot, ArrayList<CaseGraphique> listCaseGraphique, ArrayList<CaseGraphique> triListCaseGraphique) {
         this.listBloc = listBloc;
         this.listRobot = listRObot;
         this.listCaseGraphique = listCaseGraphique;
@@ -75,5 +77,12 @@ public class Partie {
         this.triListCaseGraphique = triListCaseGraphique;
     }
 
-    
+    public ArrayList<Missile> getListMissile() {
+        return listMissile;
+    }
+
+    public void setListMissile(ArrayList<Missile> listMissile) {
+        this.listMissile = listMissile;
+    }
+
 }

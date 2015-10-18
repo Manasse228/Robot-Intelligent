@@ -19,6 +19,7 @@ public class Images {
 
     ImageIcon backgroung = new ImageIcon(System.getProperty("user.dir") + "/src/images/background.jpg");
     ImageIcon explosion = new ImageIcon(System.getProperty("user.dir") + "/src/images/explosion.jpg");
+    ImageIcon robotTue = new ImageIcon(System.getProperty("user.dir") + "/src/images/sans-bouclier.jpg");
     ImageIcon vide = new ImageIcon(System.getProperty("user.dir") + "/src/images/vide.jpg");
 
     ImageIcon robotEst = new ImageIcon(System.getProperty("user.dir") + "/src/images/robotEst.jpg");
@@ -79,8 +80,12 @@ public class Images {
         return imageIcon;
     }
 
-    public ImageIcon renvoiImagesDecesRobot() {
+    public ImageIcon renvoiImagesCollisionMissile() {
         return explosion;
+    }
+
+    public ImageIcon renvoiImagesRobotTue() {
+        return robotTue;
     }
 
     public ImageIcon renvoiImages(Case caz) {
