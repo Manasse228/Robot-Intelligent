@@ -27,6 +27,7 @@ import modele.Missile;
 import modele.Partie;
 import modele.Position;
 import modele.Robot;
+import strategy.StgAvancer;
 import strategy.StgLancerMissile;
 import strategy.Strategy;
 
@@ -46,12 +47,12 @@ public class Vue extends JFrame implements Observer {
     ArrayList<Missile> listMissileForDelete, listMissileForDelete2 = new ArrayList<>();
 
     public Vue(Controleur controleur) throws InterruptedException {
+
         this.controleur = controleur;
+        this.controleur.demarrer(3, 3, 4);
 
-        this.controleur.demarrer(5, 5, 12);
-
-        this.setTitle("Robot");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setTitle("Robot");
         this.setSize((int) (screenSize.getHeight() * 0.8), (int) (screenSize.getHeight() * 0.6));
         this.setMinimumSize(new Dimension((int) (screenSize.getHeight() * 0.8), (int) (screenSize.getHeight() * 0.6)));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,7 +61,7 @@ public class Vue extends JFrame implements Observer {
         menu();
 
         jpanelDroite = new JPanel();
-        jpanelDroite.setLayout(new GridLayout(5, 5, 2, 2));
+        jpanelDroite.setLayout(new GridLayout(3, 3, 2, 2));
         afficherCase(controleur);
 
         jpanelGauche = new JPanel();
@@ -73,7 +74,6 @@ public class Vue extends JFrame implements Observer {
         contentPanel.setLayout(new GridLayout(1, 2));
 
         this.setContentPane(contentPanel);
-
         this.setVisible(true);
     }
 
@@ -91,7 +91,7 @@ public class Vue extends JFrame implements Observer {
             Robot robo = iteRobot.next();
             Strategy strategy = new StgLancerMissile(this.controleur.getModele().getPartie(), robo);
             strategy.renvoyerPartie();
-           this.controleur.getModele().notifyObserver();
+            this.controleur.getModele().notifyObserver();
         }
 
         this.controleur.getModele().notifyObserver();
@@ -100,7 +100,6 @@ public class Vue extends JFrame implements Observer {
         while (iteMisssile.hasNext()) {
 
             Missile mis = iteMisssile.next();
-
             if ((!listMissileForDelete2.isEmpty()) && (listMissileForDelete2.contains(mis))) {
                 iteMisssile.remove();
             } else {
@@ -124,6 +123,14 @@ public class Vue extends JFrame implements Observer {
         listMissileForDelete2.clear();
         this.controleur.getModele().notifyObserver();
 
+        iteRobot = this.controleur.getModele().getPartie().getListRobot().iterator();
+        while (iteRobot.hasNext()) {
+            Robot robo = iteRobot.next();
+            Strategy strategy = new StgAvancer(this.controleur.getModele().getPartie(), robo);
+            strategy.renvoyerPartie();
+            this.controleur.getModele().notifyObserver();
+        }
+
         Iterator<Robot> iter2 = this.controleur.getModele().getPartie().getListRobot().iterator();
         while (iter2.hasNext()) {
             Robot robo = iter2.next();
@@ -132,16 +139,11 @@ public class Vue extends JFrame implements Observer {
         }
 
         System.err.println("taille finale de missile " + this.controleur.getModele().getPartie().getListMissile().size());
-
+        this.controleur.getModele().notifyObserver();
     }
 
     public void mouvementRobot(Partie partie) throws InterruptedException {
-
-//        try {
-        //  while (listRobot.size() >= 1) {
         for (Robot roboti : partie.getListRobot()) {
-
-//                if ((roboti.getEnergie() > 5) && (roboti.isRepos() == false)) {
             Position oldPosition = roboti.getPosition();
             roboti = roboti.seDeplacer(roboti.getDirection(), roboti.getPosition(), partie.getListBloc(), roboti);
 
@@ -150,20 +152,8 @@ public class Vue extends JFrame implements Observer {
                         controleur.modele.getPartie().getTriListCaseGraphique(), partie.getListRobot(), images);
 
             }
-//                } else {
-//                    roboti.setRepos(true);
-//                    roboti.setBouclier(false);
-//                    if (roboti.recuperationEnergie(roboti) == 1) {
-//                        roboti.setEnergie(roboti.getEnergie() + 1);
-//                    } else {
-//                        roboti.setRepos(false);
-//                        roboti.setBouclier(true);
-//                    }
-//
-//                }
 
         }
-        // }
 
     }
 
