@@ -48,6 +48,16 @@ public class Missile implements Case {
         return element;
     }
 
+    public Missile renvoiMissile(Position pos, ArrayList<CaseGraphique> listCaseGraphique) {
+        Missile missile = new Missile();
+        for (CaseGraphique c : listCaseGraphique) {
+            if (Position.egalite(pos, c.getCaze().position()) == true) {
+                missile = (Missile) c.getCaze();
+            }
+        }
+        return missile;
+    }
+
     /*
      Si un missile se déplace faut effacer ces traces c'est à dire ces traces lol
      */

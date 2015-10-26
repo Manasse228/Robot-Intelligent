@@ -6,7 +6,6 @@
 package strategy;
 
 import modele.CaseVide;
-import modele.Direction;
 import modele.Partie;
 import modele.Position;
 import modele.Robot;

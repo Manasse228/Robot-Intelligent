@@ -12,14 +12,14 @@ import vue.CaseGraphique;
 
 /**
  *
- * @author 21416699
+ * @author sergeokov
  */
-public class StgBouclier implements Strategy {
+public class StgActiverBouclier implements Strategy {
 
     Partie partie;
     Robot robot;
 
-    public StgBouclier(Partie partie, Robot robot) {
+    public StgActiverBouclier(Partie partie, Robot robot) {
         this.partie = partie;
         this.robot = robot;
     }
@@ -32,8 +32,9 @@ public class StgBouclier implements Strategy {
             if ("Robot".equals(caz.getCaze().toString())) {
                 Robot rob = (Robot) caz.getCaze();
                 // Changement de l'état du bouclier
-                this.robot.setBouclier(!this.robot.isBouclier());
                 if (Position.egalite(this.robot.getPosition(), rob.getPosition())) {
+                    this.robot.setBouclier(true);
+                    this.robot.setEnergie(this.robot.getEnergie() - 1);
                     this.partie.getTriListCaseGraphique().get(i).setCaze(this.robot);
                 }
             }

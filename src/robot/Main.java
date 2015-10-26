@@ -6,6 +6,8 @@
 package robot;
 
 import controleur.Controleur;
+import java.util.ArrayList;
+import java.util.Random;
 import modele.Modele;
 import vue.Vue;
 
@@ -21,7 +23,6 @@ public class Main {
      */
     public static void main(String[] args) throws InterruptedException {
 
-
         Modele modele = new Modele();
 
         Controleur controleur = new Controleur(modele);
@@ -29,7 +30,7 @@ public class Main {
         Vue vue = new Vue(controleur);
 
         modele.addObserver(vue);
-        
+
         vue.voirlo();
 
     }

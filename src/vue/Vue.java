@@ -8,6 +8,8 @@ package vue;
 import controleur.Controleur;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -22,13 +24,20 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import modele.Grille;
 import modele.Missile;
 import modele.Partie;
 import modele.Position;
 import modele.Robot;
+import modele.arbreBinaire.ConstructionArbreBinaire;
+import strategy.StgActiverBouclier;
 import strategy.StgAvancer;
+import strategy.StgDebloquer;
+import strategy.StgDesactiverBouclier;
+import strategy.StgLancerLaser;
 import strategy.StgLancerMissile;
+import strategy.StgReculer;
+import strategy.StgRienFaire;
+import strategy.StgTourner;
 import strategy.Strategy;
 
 /**
@@ -37,19 +46,17 @@ import strategy.Strategy;
  */
 public class Vue extends JFrame implements Observer {
 
-    Grille grille = new Grille();
     Position position;
-    Robot robot = new Robot();
-    Images images = new Images();
+    Robot robot;
+    Images images;
     Controleur controleur;
-    JPanel jpanelGauche, jpanelDroite;
-    JPanel contentPanel = new JPanel();
+    JPanel jpanelGauche, jpanelDroite, contentPanel;
     ArrayList<Missile> listMissileForDelete, listMissileForDelete2 = new ArrayList<>();
+    GridBagConstraints constraints;
+    ConstructionArbreBinaire constructionArbreBinaire;
+    private int hauteurGrille, largeurGrille, NbreGrille;
 
     public Vue(Controleur controleur) throws InterruptedException {
-
-        this.controleur = controleur;
-        this.controleur.demarrer(3, 3, 4);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Robot");
@@ -58,107 +65,166 @@ public class Vue extends JFrame implements Observer {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
-        menu();
-
+        constraints = new GridBagConstraints();
+        images = new Images();
+        robot = new Robot();
+        contentPanel = new JPanel();
+        jpanelGauche = new JPanel();
         jpanelDroite = new JPanel();
-        jpanelDroite.setLayout(new GridLayout(3, 3, 2, 2));
+
+        this.controleur = controleur;
+        this.controleur.demarrer(2, 2, 4);
+        menu();
         afficherCase(controleur);
 
-        jpanelGauche = new JPanel();
+        jpanelDroite.setLayout(new GridLayout(2, 2, 2, 2));
+
         JButton bb = new JButton("missile");
         jpanelGauche.add(bb);
+
+        jpanelDroite.setBackground(Color.black);
         jpanelGauche.setBackground(Color.red);
 
-        contentPanel.add(jpanelGauche);
-        contentPanel.add(jpanelDroite);
-        contentPanel.setLayout(new GridLayout(1, 2));
+        contentPanel.setLayout(new GridBagLayout());
+
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weightx = 0.3;
+        constraints.weighty = 0.7;
+        constraints.anchor = GridBagConstraints.FIRST_LINE_START;
+        constraints.fill = GridBagConstraints.BOTH;
+        contentPanel.add(jpanelGauche, constraints);
+
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        constraints.weightx = 0.7;
+        constraints.weighty = 0.7;
+        constraints.anchor = GridBagConstraints.PAGE_START;
+        constraints.fill = GridBagConstraints.BOTH;
+        contentPanel.add(jpanelDroite, constraints);
 
         this.setContentPane(contentPanel);
         this.setVisible(true);
     }
 
-    public void voirlo() throws InterruptedException {
-
-        Iterator<Robot> iter = this.controleur.getModele().getPartie().getListRobot().iterator();
-        while (iter.hasNext()) {
-            Robot robo = iter.next();
-            System.err.println(" Avant Nom " + robo.getNom()
-                    + " Position " + robo.getPosition() + " Direction " + robo.getDirection() + " energie " + robo.getEnergie());
+    public void centreDeCommandement(String ordre, Robot r) {
+        Strategy strategy;
+        switch (ordre) {
+            case "LancerMissile":
+                System.err.println("LancerMissile " + r.getPosition());
+                strategy = new StgLancerMissile(this.controleur.getModele().getPartie(), r);
+                strategy.renvoyerPartie();
+                break;
+            case "LancerLaser":
+                System.err.println("LancerLaser " + r.getPosition());
+//                strategy = new StgLancerLaser(this.controleur.getModele().getPartie(), r);
+//                strategy.renvoyerPartie();
+                break;
+            case "Avancer":
+                System.err.println("Avancer " + r.getPosition());
+                strategy = new StgAvancer(this.controleur.getModele().getPartie(), r);
+                strategy.renvoyerPartie();
+                break;
+            case "Debloquer":
+                System.err.println("Debloquer " + r.getPosition());
+                strategy = new StgDebloquer(this.controleur.getModele().getPartie(), r);
+                strategy.renvoyerPartie();
+                break;
+            case "Reculer":
+                System.err.println("Reculer " + r.getPosition());
+                strategy = new StgReculer(this.controleur.getModele().getPartie(), r);
+                strategy.renvoyerPartie();
+                break;
+            case "RienFaire":
+                System.err.println("RienFaire " + r.getPosition());
+                strategy = new StgRienFaire(this.controleur.getModele().getPartie(), r);
+                strategy.renvoyerPartie();
+                break;
+            case "Tourner":
+                System.err.println("Tourner " + r.getPosition());
+                strategy = new StgTourner(this.controleur.getModele().getPartie(), r);
+                strategy.renvoyerPartie();
+                break;
+            case "ActiverBouclier":
+                System.err.println("ActiverBouclier " + r.getPosition());
+                strategy = new StgActiverBouclier(this.controleur.getModele().getPartie(), r);
+                strategy.renvoyerPartie();
+                break;
+            case "DesactiverBouclier":
+                System.err.println("DesactiverBouclier " + r.getPosition());
+                strategy = new StgDesactiverBouclier(this.controleur.getModele().getPartie(), r);
+                strategy.renvoyerPartie();
+                break;
         }
-
-        Iterator<Robot> iteRobot = this.controleur.getModele().getPartie().getListRobot().iterator();
-        while (iteRobot.hasNext()) {
-            Robot robo = iteRobot.next();
-            Strategy strategy = new StgLancerMissile(this.controleur.getModele().getPartie(), robo);
-            strategy.renvoyerPartie();
-            this.controleur.getModele().notifyObserver();
-        }
-
-        this.controleur.getModele().notifyObserver();
-
-        Iterator<Missile> iteMisssile = this.controleur.getModele().getPartie().getListMissile().iterator();
-        while (iteMisssile.hasNext()) {
-
-            Missile mis = iteMisssile.next();
-            if ((!listMissileForDelete2.isEmpty()) && (listMissileForDelete2.contains(mis))) {
-                iteMisssile.remove();
-            } else {
-                listMissileForDelete = mis.seDeplacer(mis.getDirection(), mis.getPosition(),
-                        this.controleur.getModele().getPartie(), images, mis.getNom(), this.controleur);
-            }
-
-            if (listMissileForDelete.size() == 1) {
-                iteMisssile.remove();
-            } else {
-                for (int i = 0; i < listMissileForDelete.size(); i++) {
-                    if (listMissileForDelete.get(i).getNom().equals(mis.getNom())) {
-                        iteMisssile.remove();
-                    } else {
-                        listMissileForDelete2.add(listMissileForDelete.get(i));
-                    }
-                }
-            }
-            listMissileForDelete.clear();
-        }
-        listMissileForDelete2.clear();
-        this.controleur.getModele().notifyObserver();
-
-        iteRobot = this.controleur.getModele().getPartie().getListRobot().iterator();
-        while (iteRobot.hasNext()) {
-            Robot robo = iteRobot.next();
-            Strategy strategy = new StgAvancer(this.controleur.getModele().getPartie(), robo);
-            strategy.renvoyerPartie();
-            this.controleur.getModele().notifyObserver();
-        }
-
-        Iterator<Robot> iter2 = this.controleur.getModele().getPartie().getListRobot().iterator();
-        while (iter2.hasNext()) {
-            Robot robo = iter2.next();
-            System.err.println(" Après Nom " + robo.getNom()
-                    + " Position " + robo.getPosition() + " Direction " + robo.getDirection() + " energie " + robo.getEnergie());
-        }
-
-        System.err.println("taille finale de missile " + this.controleur.getModele().getPartie().getListMissile().size());
-        this.controleur.getModele().notifyObserver();
     }
 
-    public void mouvementRobot(Partie partie) throws InterruptedException {
-        for (Robot roboti : partie.getListRobot()) {
-            Position oldPosition = roboti.getPosition();
-            roboti = roboti.seDeplacer(roboti.getDirection(), roboti.getPosition(), partie.getListBloc(), roboti);
+    public void voirlo() throws InterruptedException {
 
-            if (roboti.getPosition() != oldPosition) {
-                grille.actualisationDeLaListeGrille(roboti, oldPosition,
-                        controleur.modele.getPartie().getTriListCaseGraphique(), partie.getListRobot(), images);
-
+//        Iterator<Robot> iter = this.controleur.getModele().getPartie().getListRobot().iterator();
+//        while (iter.hasNext()) {
+//            Robot robo = iter.next();
+//            System.err.println(" Avant Nom " + robo.getNom() //+"Bouclier "+robo.isBouclier()
+//                    + " Position " + robo.getPosition() + " Direction " + robo.getDirection() + " energie " + robo.getEnergie());
+//        }
+//        while (this.controleur.getModele().getPartie().getListRobot().size() != 1) {
+            Iterator<Robot> iteRobot = this.controleur.getModele().getPartie().getListRobot().iterator();
+            while (iteRobot.hasNext()) {
+                Robot robo = iteRobot.next();
+                this.controleur.getModele().notifyObserver();
+                constructionArbreBinaire = new ConstructionArbreBinaire(this.controleur.getModele().getPartie(), robo);
+                centreDeCommandement(constructionArbreBinaire.action(), robo);
+                this.controleur.getModele().notifyObserver();
             }
+//        }
 
-        }
-
+//
+//        Iterator<Missile> iteMisssile = this.controleur.getModele().getPartie().getListMissile().iterator();
+//        while (iteMisssile.hasNext()) {
+//
+//            Missile mis = iteMisssile.next();
+//            if ((!listMissileForDelete2.isEmpty()) && (listMissileForDelete2.contains(mis))) {
+//                iteMisssile.remove();
+//            } else {
+//                listMissileForDelete = mis.seDeplacer(mis.getDirection(), mis.getPosition(),
+//                        this.controleur.getModele().getPartie(), images, mis.getNom(), this.controleur);
+//            }
+//
+//            if (listMissileForDelete.size() == 1) {
+//                iteMisssile.remove();
+//            } else {
+//                for (int i = 0; i < listMissileForDelete.size(); i++) {
+//                    if (listMissileForDelete.get(i).getNom().equals(mis.getNom())) {
+//                        iteMisssile.remove();
+//                    } else {
+//                        listMissileForDelete2.add(listMissileForDelete.get(i));
+//                    }
+//                }
+//            }
+//            listMissileForDelete.clear();
+//        }
+//        listMissileForDelete2.clear();
+//        this.controleur.getModele().notifyObserver();
+//        iteRobot = this.controleur.getModele().getPartie().getListRobot().iterator();
+//        while (iteRobot.hasNext()) {
+//            Robot robo = iteRobot.next();
+//            Strategy strategy = new StgAvancer(this.controleur.getModele().getPartie(), robo);
+//            strategy.renvoyerPartie();
+//            if (robo == this.controleur.getModele().getPartie().getRobotMorgue()) {
+//                iteRobot.remove();
+//            }
+//            this.controleur.getModele().notifyObserver();
+//        }
+//        Iterator<Robot> iter2 = this.controleur.getModele().getPartie().getListRobot().iterator();
+//        while (iter2.hasNext()) {
+//            Robot robo = iter2.next();
+//            System.err.println(" Après Nom " + robo.getNom() //+"Bouclier "+robo.isBouclier()
+//                    + " Position " + robo.getPosition() + " Direction " + robo.getDirection() + " energie " + robo.getEnergie());
+//        }
+//        System.err.println("taille finale de missile " + this.controleur.getModele().getPartie().getListMissile().size());
+        this.controleur.getModele().notifyObserver();
     }
 
     public void afficherCase(Controleur controleur) {
-
         for (CaseGraphique caseGraphique : controleur.modele.getPartie().getTriListCaseGraphique()) {
             this.jpanelDroite.add(caseGraphique);
         }
@@ -168,21 +234,24 @@ public class Vue extends JFrame implements Observer {
     public void menu() {
 
         JMenuBar menuBar = new JMenuBar();
+        JMenu menuBar_fichier = new JMenu("Fichier");
+        //JMenu menuBar_Aprpos = new JMenu("Apropos");
+        menuBar_fichier.add(new NewPartieAction("Nouvelle partie", this));
+        menuBar_fichier.addSeparator();
 
-        JMenu jMenu = new JMenu("Menu");
-        JMenu jMenu1 = new JMenu("Menu1");
-        JMenu jMenu2 = new JMenu("Menu2");
+        menuBar_fichier.addSeparator();
+        menuBar_fichier.add(new ActionQuitter("Quitter", this));
+        // menuBar_Aprpos.add(new NewPartieAction("Apropos", this));
+        menuBar.add(menuBar_fichier);
+        setJMenuBar(menuBar);
+        //JMenuBar menuBar = new JMenuBar();
 
-        JMenuItem jMenuItem = new JMenuItem();
-        JMenuItem jMenuItem1 = new JMenuItem("cool");
-        JMenuItem jMenuItem2 = new JMenuItem("cool");
-
+        JMenu jMenu = new JMenu("Apropos");
+        JMenuItem jMenuItem = new JMenuItem(new ActionAPropos("Apropos", this));
+        JMenuItem jMenuItemAide = new JMenuItem(new ActionAide("Aide", this));
         jMenu.add(jMenuItem);
-        jMenu.add(jMenuItem1);
-
+        jMenu.add(jMenuItemAide);
         menuBar.add(jMenu);
-        menuBar.add(jMenu1);
-        menuBar.add(jMenu2);
         this.setJMenuBar(menuBar);
     }
 
@@ -193,13 +262,12 @@ public class Vue extends JFrame implements Observer {
         this.revalidate();
         this.repaint();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (InterruptedException ex) {
             Logger.getLogger(Vue.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         this.jpanelDroite.removeAll();
-        //this.controleur.modele.getPartie().getTriListCaseGraphique()
         for (CaseGraphique caseGraphique : partie.getTriListCaseGraphique()) {
             this.jpanelDroite.add(caseGraphique);
         }
@@ -212,6 +280,18 @@ public class Vue extends JFrame implements Observer {
 
     public void setControleur(Controleur controleur) {
         this.controleur = controleur;
+    }
+
+    public void setLargeurGrille(int largeurGrille) {
+        this.largeurGrille = largeurGrille;
+    }
+
+    public void setHauteurGrille(int hauteurGrille) {
+        this.hauteurGrille = hauteurGrille;
+    }
+
+    public void setNreRobot(int NbreGrille) {
+        this.NbreGrille = NbreGrille;
     }
 
 }

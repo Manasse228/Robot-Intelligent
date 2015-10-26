@@ -25,17 +25,18 @@ public class StgLancerMissile implements Strategy {
     Direction direction;
     Position position, positionInitiale;
     String nom;
-    Robot roboti;
+    Robot roboti, robot;
     Missile missile;
     Images images = new Images();
 
     public StgLancerMissile(Partie partie, Robot robot) {
         missile = new Missile();
+        roboti = new Robot();
 
+        this.robot = robot;
         this.partie = partie;
-        this.roboti = robot;
-        this.nom = this.roboti.getNom();
-        this.direction = this.roboti.getDirection();
+        this.nom = this.robot.getNom();
+        this.direction = this.robot.getDirection();
         positionInitiale = robot.getPosition();
     }
 
@@ -46,7 +47,7 @@ public class StgLancerMissile implements Strategy {
 
         if (roboti.existPosition(position, this.partie.getListBloc())) {
             String element = missile.detecteurElement(position, this.partie.getTriListCaseGraphique());
-            this.roboti.setEnergie(this.roboti.getEnergie() - 1);
+            this.robot.setEnergie(this.robot.getEnergie() - 1);
             switch (element) {
                 case "CaseVide":
                     /*
@@ -118,6 +119,7 @@ public class StgLancerMissile implements Strategy {
                     break;
             }
         } else {//le missile sort de la grille
+            this.roboti.setEnergie(this.roboti.getEnergie() - 1);
             System.err.println("Missile sort de la grille ..");
 
         }

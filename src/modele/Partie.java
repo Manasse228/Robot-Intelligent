@@ -6,7 +6,6 @@
 package modele;
 
 import java.util.ArrayList;
-import java.util.Observable;
 import vue.CaseGraphique;
 
 /**
@@ -20,9 +19,12 @@ public class Partie {
     ArrayList<CaseGraphique> listCaseGraphique;
     ArrayList<CaseGraphique> triListCaseGraphique;
     ArrayList<Missile> listMissile;
+    Robot robotMorgue;
     private int notif;
 
     public Partie() {
+        robotMorgue = new Robot();
+
         listBloc = new ArrayList<>();
         listRobot = new ArrayList<>();
         listCaseGraphique = new ArrayList<>();
@@ -30,7 +32,8 @@ public class Partie {
         listMissile = new ArrayList<>();
     }
 
-    public Partie(ArrayList<Case> listBloc, ArrayList<Robot> listRObot, ArrayList<CaseGraphique> listCaseGraphique, ArrayList<CaseGraphique> triListCaseGraphique) {
+    public Partie(ArrayList<Case> listBloc, ArrayList<Robot> listRObot, ArrayList<CaseGraphique> listCaseGraphique, 
+            ArrayList<CaseGraphique> triListCaseGraphique) {
         this.listBloc = listBloc;
         this.listRobot = listRObot;
         this.listCaseGraphique = listCaseGraphique;
@@ -85,4 +88,11 @@ public class Partie {
         this.listMissile = listMissile;
     }
 
+    public Robot getRobotMorgue() {
+        return robotMorgue;
+    }
+
+    public void setRobotMorgue(Robot robotMorgue) {
+        this.robotMorgue = robotMorgue;
+    }
 }

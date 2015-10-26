@@ -7,7 +7,6 @@ package vue;
 
 import javax.swing.ImageIcon;
 import modele.Case;
-import modele.Direction;
 import modele.Missile;
 import modele.Robot;
 
@@ -18,8 +17,9 @@ import modele.Robot;
 public class Images {
 
     ImageIcon backgroung = new ImageIcon(System.getProperty("user.dir") + "/src/images/background.jpg");
+    ImageIcon sanbouclierLaser = new ImageIcon(System.getProperty("user.dir") + "/src/images/sans-bouclier-laser.jpg");
     ImageIcon explosion = new ImageIcon(System.getProperty("user.dir") + "/src/images/explosion.jpg");
-    ImageIcon robotTue = new ImageIcon(System.getProperty("user.dir") + "/src/images/sans-bouclier.jpg");
+    ImageIcon sanbouclierMissile = new ImageIcon(System.getProperty("user.dir") + "/src/images/sans-bouclier.jpg");
     ImageIcon vide = new ImageIcon(System.getProperty("user.dir") + "/src/images/vide.jpg");
 
     ImageIcon robotEst = new ImageIcon(System.getProperty("user.dir") + "/src/images/robotEst.jpg");
@@ -85,7 +85,11 @@ public class Images {
     }
 
     public ImageIcon renvoiImagesRobotTue() {
-        return robotTue;
+        return sanbouclierMissile;
+    }
+
+    public ImageIcon renvoiImagesRobotTueLaser() {
+        return sanbouclierLaser;
     }
 
     public ImageIcon renvoiImages(Case caz) {

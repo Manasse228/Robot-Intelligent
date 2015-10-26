@@ -12,23 +12,23 @@ import modele.Modele;
  * @author sergeokov
  */
 public class Controleur {
-    
+
     public Modele modele;
-    public int hauteur,largeur,nbreRobot;
-    
+    public int hauteur, largeur, nbreRobot;
+
     public Controleur(Modele modele) {
         this.modele = modele;
     }
-    
+
     public void demarrer(int hauteur, int largeur, int nbreRobot) {
         modele.creationGrille(hauteur, largeur, nbreRobot);
         modele.creationCaseGraphique(hauteur, largeur);
-        
     }
-    
-    
+
     public void verification(int hauteur, int largeur, int nbreRobot) {
-        
+        if (nbreRobot > hauteur * largeur) {
+            /// One lance pas le jeu
+        }
     }
 
     public int getHauteur() {
@@ -62,7 +62,5 @@ public class Controleur {
     public void setModele(Modele modele) {
         this.modele = modele;
     }
-    
-    
-    
+
 }

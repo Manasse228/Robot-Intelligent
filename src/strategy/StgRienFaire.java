@@ -49,6 +49,7 @@ public class StgRienFaire implements Strategy {
                 }
             }
         } else {
+            System.err.println("on fait rien");
             //On fait rien
         }
 
