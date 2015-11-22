@@ -5,11 +5,10 @@
  */
 package modele;
 
+import controleur.Partie;
 import controleur.Controleur;
 import java.util.ArrayList;
 import java.util.Iterator;
-import vue.CaseGraphique;
-import vue.Images;
 
 /**
  *
@@ -38,11 +37,11 @@ public class Missile implements Case {
     public Missile() {
     }
 
-    public String detecteurElement(Position pos, ArrayList<CaseGraphique> listCaseGraphique) {
-        String element = "";
+    private Case detecteurElement(Position pos, ArrayList<CaseGraphique> listCaseGraphique) {
+        Case element =null;
         for (CaseGraphique c : listCaseGraphique) {
             if (Position.egalite(pos, c.getCaze().position()) == true) {
-                element = c.getCaze().toString();
+                element = c.getCaze();
             }
         }
         return element;
@@ -91,14 +90,14 @@ public class Missile implements Case {
     }
 
     /*
-     Déplacement d'une missile Fonction déja utilisée au niveau de la vue donc ne pas toucher Merci
+     Déplacement d'une missile 
      */
-    public ArrayList<Missile> seDeplacer(Direction direction, Position position, Partie partie, Images images, String nom, Controleur controleur) {
-        listMissileForDelete.clear();
+    public void seDeplacer(Direction direction, Position position, Partie partie, Images images,
+            String nom, Controleur controleur) {
         nvlePosition = robot.nextPosition(direction, position);
         if (robot.existPosition(nvlePosition, partie.getListBloc())) {
-            String element = detecteurElement(nvlePosition, partie.getTriListCaseGraphique());
-            switch (element) {
+            Case element =  detecteurElement(nvlePosition, partie.getTriListCaseGraphique());
+            switch (element.toString()) {
                 case "CaseVide":
                     /*
                      Dans le cas ou le missile veut accéder à une case vide
@@ -107,12 +106,6 @@ public class Missile implements Case {
                         if (Position.egalite(partie.getTriListCaseGraphique().get(i).getCaze().position(), nvlePosition) == true) {
                             Missile missile = new Missile(nvlePosition, direction, nom);
                             partie.getTriListCaseGraphique().set(i, new CaseGraphique(missile, images.renvoiImages(missile).getImage()));
-                            //Actualisation de la liste des missiles
-                            for (int j = 0; j < partie.getListMissile().size(); j++) {
-                                if (partie.getListMissile().get(j).getNom().equals(missile.getNom())) {
-                                    partie.getListMissile().set(j, missile);
-                                }
-                            }
                         }
 
                         if (Position.egalite(partie.getTriListCaseGraphique().get(i).getCaze().position(), position) == true) {
@@ -134,36 +127,20 @@ public class Missile implements Case {
                                     images.renvoiImages(new CaseVide(position)).getImage()));
                         }
 
+                        // Le robot atterit sur le robot
                         if (Position.egalite(partie.getTriListCaseGraphique().get(i).getCaze().position(), nvlePosition) == true) {
                             Robot rob = (Robot) partie.getTriListCaseGraphique().get(i).getCaze();
 
                             //Le robot na pas activé son bouclier
-                            if (rob.isBouclier() == true) {
+                            if (rob.isBouclier() == false) {
                                 //On affiche une effet de collission entre un robot et une missile
                                 partie.getTriListCaseGraphique().set(i, new CaseGraphique(images.renvoiImagesRobotTue().getImage()));
                                 controleur.getModele().notifyObserver();
                                 //On remplace l'emplacement du robot par une case vide car il a rendu l'âme
                                 partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(nvlePosition),
                                         images.renvoiImages(new CaseVide(nvlePosition)).getImage()));
-                                controleur.getModele().notifyObserver();
-
-                                Iterator<Robot> iteRobot = partie.getListRobot().iterator();
-
-                                for (Missile mis : partie.getListMissile()) {
-                                    if (mis.getNom().equals(nom)) {
-                                        listMissileForDelete.add(mis);
-                                    }
-                                }
-
-                                while (iteRobot.hasNext()) {
-                                    Robot robo = iteRobot.next();
-                                    if (Position.egalite(nvlePosition, robo.getPosition())) {
-                                        iteRobot.remove();
-                                    }
-                                }
-
                             } else {
-                                // Le robot a activé son bouclier   
+                                // Le robot a activé son bouclier rien ne se passe  
                             }
                         }
                     }
@@ -176,33 +153,19 @@ public class Missile implements Case {
                     for (int i = 0; i < partie.getTriListCaseGraphique().size(); i++) {
 
                         if (Position.egalite(partie.getTriListCaseGraphique().get(i).getCaze().position(), position) == true) {
-                            Missile mis = (Missile) partie.getTriListCaseGraphique().get(i).getCaze();
                             partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(position),
                                     images.renvoiImages(new CaseVide(position)).getImage()));
-                            //Destruction de la seconde missile
-                            for (Missile m : partie.getListMissile()) {
-                                if (m.getNom().equals(mis.getNom())) {
-                                    listMissileForDelete.add(m);
-                                }
-                            }
                         }
 
                         if (Position.egalite(partie.getTriListCaseGraphique().get(i).getCaze().position(), nvlePosition) == true) {
-                            Missile mis = (Missile) partie.getTriListCaseGraphique().get(i).getCaze();
+
                             //Affichage d'une image de collision de deux missile
                             partie.getTriListCaseGraphique().set(i, new CaseGraphique(images.renvoiImagesCollisionMissile().getImage()));
                             controleur.getModele().notifyObserver();
                             /*une pause d'affichage à ce niveau et après on affiche du vide*/
                             partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(nvlePosition),
                                     images.renvoiImages(new CaseVide(nvlePosition)).getImage()));
-
-                            for (Missile m : partie.getListMissile()) {
-                                if (m.getNom().equals(mis.getNom())) {
-                                    listMissileForDelete.add(m);
-                                }
-                            }
                         }
-                        controleur.getModele().notifyObserver();
 
                     }
                     break;
@@ -210,7 +173,7 @@ public class Missile implements Case {
                     break;
             }
         } else {//le missile sort de al grille
-            System.err.println("Missile sort avant operation");
+            System.err.println("Missile sort de la grille");
             for (int i = 0; i < partie.getTriListCaseGraphique().size(); i++) {
                 if (Position.egalite(partie.getTriListCaseGraphique().get(i).getCaze().position(), position) == true) {
                     partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(position),
@@ -218,18 +181,7 @@ public class Missile implements Case {
                 }
             }
             controleur.getModele().notifyObserver();
-            /*
-             On retire de la liste des missiles le missile qui vient de quitter la grille
-             */
-            for (Missile mis : partie.getListMissile()) {
-                if (mis.getNom().equals(this.nom)) {
-                    listMissileForDelete.add(mis);
-                }
-            }
-
-            System.err.println("Missile sort après operation");
         }
-        return listMissileForDelete;
     }
 
     public Position getPosition() {

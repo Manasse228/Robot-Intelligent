@@ -5,11 +5,10 @@
  */
 package modele;
 
+import controleur.Partie;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import vue.CaseGraphique;
-import vue.Images;
 
 /**
  *
@@ -36,6 +35,7 @@ public class Modele extends Observable {
     }
 
     public void creationGrille(int hauteur, int largeur, int nbreRobot) {
+        partie = new Partie();
         grille = new Grille(hauteur, largeur, nbreRobot);
         partie.setListBloc(grille.getListCase());
     }

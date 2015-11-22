@@ -5,10 +5,8 @@
  */
 package strategy;
 
-import modele.Partie;
-import modele.Position;
+import controleur.Partie;
 import modele.Robot;
-import vue.CaseGraphique;
 
 /**
  *
@@ -29,27 +27,9 @@ public class StgRienFaire implements Strategy {
      */
     @Override
     public Partie renvoyerPartie() {
-
-        if (this.robot.getEnergie() == 0) {
+        if (this.robot.getEnergie() <= 0) {
             this.robot.setEnergie(19);
-
-            for (int i = 0; i < this.partie.getTriListCaseGraphique().size(); i++) {
-                CaseGraphique caz = this.partie.getTriListCaseGraphique().get(i);
-                if ("Robot".equals(caz.getCaze().toString())) {
-                    Robot rob = (Robot) caz.getCaze();
-                    if (Position.egalite(this.robot.getPosition(), rob.getPosition())) {
-                        this.partie.getTriListCaseGraphique().get(i).setCaze(this.robot);
-                    }
-                }
-            }
-
-            for (int j = 0; j < this.partie.getListRobot().size(); j++) {
-                if (this.partie.getListRobot().get(j).getNom().equals(this.robot.getNom())) {
-                    this.partie.getListRobot().set(j, this.robot);
-                }
-            }
         } else {
-            System.err.println("on fait rien");
             //On fait rien
         }
 

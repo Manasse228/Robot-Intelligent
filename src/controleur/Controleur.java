@@ -14,45 +14,14 @@ import modele.Modele;
 public class Controleur {
 
     public Modele modele;
-    public int hauteur, largeur, nbreRobot;
 
     public Controleur(Modele modele) {
         this.modele = modele;
     }
 
     public void demarrer(int hauteur, int largeur, int nbreRobot) {
-        modele.creationGrille(hauteur, largeur, nbreRobot);
-        modele.creationCaseGraphique(hauteur, largeur);
-    }
-
-    public void verification(int hauteur, int largeur, int nbreRobot) {
-        if (nbreRobot > hauteur * largeur) {
-            /// One lance pas le jeu
-        }
-    }
-
-    public int getHauteur() {
-        return hauteur;
-    }
-
-    public void setHauteur(int hauteur) {
-        this.hauteur = hauteur;
-    }
-
-    public int getLargeur() {
-        return largeur;
-    }
-
-    public void setLargeur(int largeur) {
-        this.largeur = largeur;
-    }
-
-    public int getNbreRobot() {
-        return nbreRobot;
-    }
-
-    public void setNbreRobot(int nbreRobot) {
-        this.nbreRobot = nbreRobot;
+        this.modele.creationGrille(hauteur, largeur, nbreRobot);
+        this.modele.creationCaseGraphique(hauteur, largeur);
     }
 
     public Modele getModele() {

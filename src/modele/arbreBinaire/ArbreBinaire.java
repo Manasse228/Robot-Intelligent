@@ -11,7 +11,7 @@ package modele.arbreBinaire;
  */
 public abstract class ArbreBinaire {
 
-    public void createNoeud(ArbreBinaire arbre, ArbreBinaire arbre1) {
+    public void createNoeud(ArbreBinaire noeudGauche, ArbreBinaire noeudDroite) {
         throw new UnsupportedOperationException();
     }
 

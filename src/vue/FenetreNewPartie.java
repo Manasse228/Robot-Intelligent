@@ -6,7 +6,6 @@
 package vue;
 
 import java.awt.Dimension;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
@@ -16,8 +15,7 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
  */
 public class FenetreNewPartie extends JFrame {
  
-    private final Vue vue ;
-    private JButton buton;
+    private Vue vue ;
 
     public FenetreNewPartie(Vue vue) {
         this.vue = vue;
@@ -28,10 +26,6 @@ public class FenetreNewPartie extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setAlwaysOnTop(true);		
-		
-                buton = new JButton("voir");
-		this.getContentPane().add(buton);
-                
                 this.setVisible(true);
     }
 

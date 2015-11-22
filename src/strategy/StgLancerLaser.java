@@ -5,71 +5,60 @@
  */
 package strategy;
 
-import java.util.Iterator;
 import modele.CaseVide;
 import modele.Modele;
-import modele.Partie;
+import controleur.Partie;
 import modele.Position;
 import modele.Robot;
-import vue.CaseGraphique;
-import vue.Images;
+import modele.CaseGraphique;
+import modele.Images;
 
 /**
  *
  * @author 21416699
  */
 public class StgLancerLaser implements Strategy {
-
+    
     Partie partie;
     Robot robot;
     Robot roboti;
     Position position;
     Images images;
     Modele modele;
-
-    public StgLancerLaser(Partie partie, Robot robot) {
+    
+    public StgLancerLaser(Partie partie, Robot robot, Modele modele) {
         roboti = new Robot();
-        modele = new Modele();
-
+        this.modele = modele;
+        
         images = new Images();
         this.partie = partie;
         this.robot = robot;
     }
-
+    
     @Override
     public Partie renvoyerPartie() {
-
+        
         position = roboti.nextPosition(this.robot.getDirection(), this.robot.getPosition());
-
-        if (roboti.existPosition(position, this.partie.getListBloc())) {
+        this.robot.setEnergie(this.robot.getEnergie() - 1);
+        if (roboti.existPosition(position, this.partie.getListBloc()) == true) {
             for (int i = 0; i < this.partie.getTriListCaseGraphique().size(); i++) {
                 if ((Position.egalite(this.partie.getTriListCaseGraphique().get(i).getCaze().position(), position) == true)
-                        && ("Robot".equals(this.partie.getTriListCaseGraphique().get(i).getCaze().toString()))) {
-
+                        && (this.partie.getTriListCaseGraphique().get(i).getCaze()  instanceof Robot)) {
+                    
                     Robot rob = (Robot) this.partie.getTriListCaseGraphique().get(i).getCaze();
-
-                    Iterator iteRobot = this.partie.getListRobot().iterator();
-                    while (iteRobot.hasNext()) {
-                        if(iteRobot.next() == null){
-                            System.err.println("videeeeeeeeeeeeeeeeee");
-                        }
-                        Robot robo = (Robot) iteRobot.next();
-                        if (Position.egalite(position, robo.getPosition())) {
-                            iteRobot.remove();
-                        }
+                    if (rob.isBouclier() == false) {
+                        this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(images.renvoiImagesRobotTueLaser().getImage()));
+                        this.modele.notifyObserver();
+                        this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(position),
+                                images.renvoiImages(new CaseVide(position)).getImage()));
                     }
-
-                    this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(images.renvoiImagesRobotTueLaser().getImage()));
-                    modele.notifyObserver();
-                    this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(this.position),
-                            images.renvoiImages(new CaseVide(this.position)).getImage()));
-
+                    
                 }
-
+                
             }
         }
-
+        
         return this.partie;
     }
-
+    
 }

@@ -7,8 +7,6 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.Random;
-import vue.CaseGraphique;
-import vue.Images;
 
 /**
  *
@@ -28,8 +26,8 @@ public class Grille {
         for (int i = 0; i < nbreRobots; i++) {
             emplacementRobot(hauteur, largeur);
         }
-        for (Position list : listPositionRobots) {
-            Case caseRobot = new Robot(20, list, Direction.getRandomDirection(), Utils.nomRobot());
+        for (Position pos : listPositionRobots) {
+            Case caseRobot = new Robot(20, pos, Direction.getRandomDirection(), false ,Utils.nomRobot());
             listRobot.add((Robot) caseRobot);
             listCase.add(caseRobot);
         }

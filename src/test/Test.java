@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package strategy;
-
-import controleur.Partie;
+package test;
 
 /**
  *
- * @author 21416699
+ * @author sergeokov
  */
-public interface Strategy {
 
-    public Partie renvoyerPartie();
+
+
+public class Test {
+    
 }

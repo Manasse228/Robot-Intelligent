@@ -31,13 +31,13 @@ public class Robot implements Case {
     /*
      Création d'un robot 
      */
-    public Robot(int energie, Position position, Direction direction, String nom) {
+    public Robot(int energie, Position position, Direction direction, boolean bouclier,String nom) {
 
         this.energie = energie;
         this.position = position;
         this.mort = false;
         this.repos = false;
-        this.bouclier = true;
+        this.bouclier = bouclier;
         this.direction = direction;
         this.nom = nom;
     }

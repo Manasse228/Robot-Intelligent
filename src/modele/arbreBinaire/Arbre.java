@@ -7,7 +7,7 @@ package modele.arbreBinaire;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import modele.Partie;
+import controleur.Partie;
 import modele.Robot;
 
 /**
@@ -37,7 +37,7 @@ public class Arbre extends ArbreBinaire {
         while (iterator.hasNext()) {
             ArbreBinaire arbreBinaire = (ArbreBinaire) iterator.next();
             Noeud noeud = (Noeud) arbreBinaire;
-            switch (constructionArbreBinaire.verification(noeud, this.robot, this.partie)) {
+            switch (constructionArbreBinaire.verification(noeud.condition, this.robot, this.partie)) {
                 case 0:
                     resultat = noeud.getFeuilleD().parcourir();
                     break;

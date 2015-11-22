@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vue;
+package modele;
 
 import javax.swing.ImageIcon;
 import modele.Case;
@@ -16,7 +16,7 @@ import modele.Robot;
  */
 public class Images {
 
-    ImageIcon backgroung = new ImageIcon(System.getProperty("user.dir") + "/src/images/background.jpg");
+    ImageIcon backgroung = new ImageIcon(System.getProperty("user.dir") + "/src/images/ban.jpg");
     ImageIcon sanbouclierLaser = new ImageIcon(System.getProperty("user.dir") + "/src/images/sans-bouclier-laser.jpg");
     ImageIcon explosion = new ImageIcon(System.getProperty("user.dir") + "/src/images/explosion.jpg");
     ImageIcon sanbouclierMissile = new ImageIcon(System.getProperty("user.dir") + "/src/images/sans-bouclier.jpg");
@@ -26,6 +26,11 @@ public class Images {
     ImageIcon robotOuest = new ImageIcon(System.getProperty("user.dir") + "/src/images/robotOuest.jpg");
     ImageIcon robotSud = new ImageIcon(System.getProperty("user.dir") + "/src/images/robotSud.jpg");
     ImageIcon robotNord = new ImageIcon(System.getProperty("user.dir") + "/src/images/robotNord.jpg");
+
+    ImageIcon robotEstSansBouclier = new ImageIcon(System.getProperty("user.dir") + "/src/images/robotEstSansBouclier.jpg");
+    ImageIcon robotOuestSansBouclier = new ImageIcon(System.getProperty("user.dir") + "/src/images/robotOuestSansBouclier.jpg");
+    ImageIcon robotSudSansBouclier = new ImageIcon(System.getProperty("user.dir") + "/src/images/robotSudSansBouclier.jpg");
+    ImageIcon robotNordSansBouclier = new ImageIcon(System.getProperty("user.dir") + "/src/images/robotNordSansBouclier.jpg");
 
     ImageIcon missileEst = new ImageIcon(System.getProperty("user.dir") + "/src/images/missile_est.jpg");
     ImageIcon missileOuest = new ImageIcon(System.getProperty("user.dir") + "/src/images/missile_ouest.jpg");
@@ -37,16 +42,32 @@ public class Images {
         ImageIcon imageIcon = backgroung;
         switch (robot.getDirection()) {
             case Est:
-                imageIcon = robotEst;
+                if (robot.isBouclier() == true) {
+                    imageIcon = robotEst;
+                } else {
+                    imageIcon = robotEstSansBouclier;
+                }
                 break;
             case Ouest:
-                imageIcon = robotOuest;
+                if (robot.isBouclier() == true) {
+                    imageIcon = robotOuest;
+                } else {
+                    imageIcon = robotOuestSansBouclier;
+                }
                 break;
             case Nord:
-                imageIcon = robotNord;
+                if (robot.isBouclier() == true) {
+                    imageIcon = robotNord;
+                } else {
+                    imageIcon = robotNordSansBouclier;
+                }
                 break;
             case Sud:
-                imageIcon = robotSud;
+                if (robot.isBouclier() == true) {
+                    imageIcon = robotSud;
+                } else {
+                    imageIcon = robotSudSansBouclier;
+                }
                 break;
             default:
                 // rien
@@ -82,6 +103,10 @@ public class Images {
 
     public ImageIcon renvoiImagesCollisionMissile() {
         return explosion;
+    }
+
+    public ImageIcon renvoiImagesBackground() {
+        return backgroung;
     }
 
     public ImageIcon renvoiImagesRobotTue() {

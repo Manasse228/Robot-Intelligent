@@ -10,11 +10,11 @@ import java.util.Random;
 import modele.CaseVide;
 import modele.Direction;
 import modele.Missile;
-import modele.Partie;
+import controleur.Partie;
 import modele.Position;
 import modele.Robot;
-import vue.CaseGraphique;
-import vue.Images;
+import modele.CaseGraphique;
+import modele.Images;
 
 /**
  *
@@ -81,7 +81,7 @@ public class StgDebloquer implements Strategy {
             if (robot1.existPosition(position, this.partie.getListBloc()) == true) {
                 //si cette position existe on va vérifier qu'elle contient une case vide
                 for (CaseGraphique c : this.partie.getTriListCaseGraphique()) {
-                    if ((Position.egalite(c.getCaze().position(), position) == true) && ("CaseVide".equals(c.getCaze().toString()))) {
+                    if ((Position.egalite(c.getCaze().position(), position) == true) && (c.getCaze() instanceof CaseVide)) {
                         list.add(new PositionDirection(dir, position));
                     }
                 }
@@ -106,7 +106,7 @@ public class StgDebloquer implements Strategy {
             for (int j = 0; j < this.partie.getTriListCaseGraphique().size(); j++) {
                 if (Position.egalite(this.partie.getTriListCaseGraphique().get(j).getCaze().position(), positionDirection.getPosition())) {
                     Robot r = new Robot(this.robot.getEnergie() - 1, positionDirection.getPosition(),
-                            positionDirection.getDirection(), this.robot.getNom());
+                            positionDirection.getDirection(), this.robot.isBouclier() ,this.robot.getNom());
                     this.partie.getTriListCaseGraphique().set(j, new CaseGraphique(r, images.renvoiImages(r).getImage()));
 
                     for (int k = 0; k < this.partie.getListRobot().size(); k++) {

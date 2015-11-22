@@ -5,10 +5,10 @@
  */
 package strategy;
 
-import modele.Partie;
+import controleur.Partie;
 import modele.Position;
 import modele.Robot;
-import vue.CaseGraphique;
+import modele.CaseGraphique;
 
 /**
  *
@@ -29,7 +29,7 @@ public class StgActiverBouclier implements Strategy {
 
         for (int i = 0; i < this.partie.getTriListCaseGraphique().size(); i++) {
             CaseGraphique caz = this.partie.getTriListCaseGraphique().get(i);
-            if ("Robot".equals(caz.getCaze().toString())) {
+            if (caz.getCaze() instanceof Robot) {
                 Robot rob = (Robot) caz.getCaze();
                 // Changement de l'état du bouclier
                 if (Position.egalite(this.robot.getPosition(), rob.getPosition())) {

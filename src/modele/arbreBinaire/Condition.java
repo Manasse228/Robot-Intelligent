@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package strategy;
+package modele.arbreBinaire;
 
 import controleur.Partie;
+import modele.Robot;
 
 /**
  *
  * @author 21416699
  */
-public interface Strategy {
+public interface Condition {
 
-    public Partie renvoyerPartie();
+    public boolean check(Partie partie, Robot robot);
+
 }

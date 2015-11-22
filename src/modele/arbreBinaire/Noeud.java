@@ -6,7 +6,7 @@
 package modele.arbreBinaire;
 
 import java.util.ArrayList;
-import modele.Partie;
+import controleur.Partie;
 import modele.Robot;
 
 /**
@@ -17,16 +17,16 @@ public class Noeud extends ArbreBinaire {
 
     public ArbreBinaire feuilleG, feuilleD;
     ArrayList<ArbreBinaire> listArbreBinaire;
-    String nom;
+    Condition condition;
     ConstructionArbreBinaire constructionArbreBinaire;
     Robot robot;
     Partie partie;
     public Feuille feuille;
 
-    public Noeud(String nom, Robot robot, Partie partie) {
-        this.nom = nom;
+    public Noeud(Condition condition, Robot robot, Partie partie) {
         this.robot = robot;
         this.partie = partie;
+        this.condition = condition;
         feuille = new Feuille();
         constructionArbreBinaire = new ConstructionArbreBinaire();
         listArbreBinaire = new ArrayList<>();
@@ -41,11 +41,11 @@ public class Noeud extends ArbreBinaire {
     @Override
     public String parcourir() {
         String resultat = "";
-        switch (constructionArbreBinaire.verification(this, this.robot, this.partie)) {
-            case 1:
+        switch (constructionArbreBinaire.verification(condition, this.robot, this.partie)) {
+            case 0:
                 resultat = this.getFeuilleD().parcourir();
                 break;
-            case 0:
+            case 1:
                 resultat = this.getFeuilleG().parcourir();
                 break;
         }
@@ -66,14 +66,6 @@ public class Noeud extends ArbreBinaire {
 
     public void setFeuilleD(ArbreBinaire feuilleD) {
         this.feuilleD = feuilleD;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
     }
 
     public ArrayList<ArbreBinaire> getListArbreBinaire() {

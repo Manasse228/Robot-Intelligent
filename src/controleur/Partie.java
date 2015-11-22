@@ -3,10 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modele;
+package controleur;
 
 import java.util.ArrayList;
-import vue.CaseGraphique;
+import modele.Case;
+import modele.CaseGraphique;
+import modele.Missile;
+import modele.Position;
+import modele.Robot;
 
 /**
  *
@@ -19,12 +23,10 @@ public class Partie {
     ArrayList<CaseGraphique> listCaseGraphique;
     ArrayList<CaseGraphique> triListCaseGraphique;
     ArrayList<Missile> listMissile;
-    Robot robotMorgue;
+
     private int notif;
 
     public Partie() {
-        robotMorgue = new Robot();
-
         listBloc = new ArrayList<>();
         listRobot = new ArrayList<>();
         listCaseGraphique = new ArrayList<>();
@@ -32,12 +34,22 @@ public class Partie {
         listMissile = new ArrayList<>();
     }
 
-    public Partie(ArrayList<Case> listBloc, ArrayList<Robot> listRObot, ArrayList<CaseGraphique> listCaseGraphique, 
+    public Partie(ArrayList<Case> listBloc, ArrayList<Robot> listRObot, ArrayList<CaseGraphique> listCaseGraphique,
             ArrayList<CaseGraphique> triListCaseGraphique) {
         this.listBloc = listBloc;
         this.listRobot = listRObot;
         this.listCaseGraphique = listCaseGraphique;
         this.triListCaseGraphique = triListCaseGraphique;
+    }
+
+    public Case quiEstLa(Position pos, ArrayList<CaseGraphique> listCaseGraphique) {
+        Case element = null;
+        for (CaseGraphique c : listCaseGraphique) {
+            if (Position.egalite(pos, c.getCaze().position()) == true) {
+                element = c.getCaze();
+            }
+        }
+        return element;
     }
 
     public ArrayList<Case> getListBloc() {
@@ -88,11 +100,4 @@ public class Partie {
         this.listMissile = listMissile;
     }
 
-    public Robot getRobotMorgue() {
-        return robotMorgue;
-    }
-
-    public void setRobotMorgue(Robot robotMorgue) {
-        this.robotMorgue = robotMorgue;
-    }
 }

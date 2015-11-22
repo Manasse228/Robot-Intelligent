@@ -5,15 +5,15 @@
  */
 package strategy;
 
-import java.util.Iterator;
+import modele.Case;
 import modele.CaseVide;
-import modele.Direction;
 import modele.Missile;
-import modele.Partie;
+import modele.Modele;
+import controleur.Partie;
 import modele.Position;
 import modele.Robot;
-import vue.CaseGraphique;
-import vue.Images;
+import modele.CaseGraphique;
+import modele.Images;
 
 /**
  *
@@ -22,106 +22,106 @@ import vue.Images;
 public class StgLancerMissile implements Strategy {
 
     Partie partie;
-    Direction direction;
-    Position position, positionInitiale;
-    String nom;
+    Position position;
     Robot roboti, robot;
     Missile missile;
-    Images images = new Images();
+    Images images;
+    Modele modele;
 
-    public StgLancerMissile(Partie partie, Robot robot) {
+    public StgLancerMissile(Partie partie, Robot robot, Modele modele) {
         missile = new Missile();
         roboti = new Robot();
+        images = new Images();
 
+        this.modele = modele;
         this.robot = robot;
         this.partie = partie;
-        this.nom = this.robot.getNom();
-        this.direction = this.robot.getDirection();
-        positionInitiale = robot.getPosition();
+    }
+
+    private int compteurRobot() {
+        int compteur = 0;
+        for (CaseGraphique c : this.partie.getTriListCaseGraphique()) {
+            if (c.getCaze() instanceof Robot) {
+                compteur++;
+            }
+        }
+        return compteur;
     }
 
     @Override
     public Partie renvoyerPartie() {
 
-        position = roboti.nextPosition(this.direction, positionInitiale);
+        if (compteurRobot() > 2) {
 
-        if (roboti.existPosition(position, this.partie.getListBloc())) {
-            String element = missile.detecteurElement(position, this.partie.getTriListCaseGraphique());
-            this.robot.setEnergie(this.robot.getEnergie() - 1);
-            switch (element) {
-                case "CaseVide":
-                    /*
-                     Dans le cas ou le missile veut accéder à une case vide
-                     */
-                    for (int i = 0; i < this.partie.getTriListCaseGraphique().size(); i++) {
-                        if (Position.egalite(this.partie.getTriListCaseGraphique().get(i).getCaze().position(), position) == true) {
-                            missile = new Missile(position, this.direction, this.nom);
-                            this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(missile, images.renvoiImages(missile).getImage()));
-                            this.partie.getListMissile().add(missile);
-                        }
-                    }
-                    break;
-                case "Robot":
-                    /*
-                     Dans le cas ou le missile a un robot devant lui
-                     */
-                    for (int i = 0; i < this.partie.getTriListCaseGraphique().size(); i++) {
-                        if (Position.egalite(this.partie.getTriListCaseGraphique().get(i).getCaze().position(), this.position) == true) {
-                            Robot rob = (Robot) this.partie.getTriListCaseGraphique().get(i).getCaze();
+            position = roboti.nextPosition(this.robot.getDirection(), this.robot.getPosition());
 
-                            //Le robot na pas activé son bouclier
-                            if (rob.isBouclier() == false) {
-                                //On affiche une effet de collission entre un robot et une missile
-                                this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(images.renvoiImagesRobotTue().getImage()));
-                                //On remplace l'emplacement du robot par une case vide car il a rendu l'âme
-                                this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(this.position),
-                                        images.renvoiImages(new CaseVide(this.position)).getImage()));
-
-                                Iterator<Robot> iteRobot = this.partie.getListRobot().iterator();
-                                while (iteRobot.hasNext()) {
-                                    Robot robo = iteRobot.next();
-                                    if (Position.egalite(this.position, robo.getPosition())) {
-                                        iteRobot.remove();
-                                    }
-                                }
-
-                            } else {
-                                // Le robot a activé son bouclier   
+            if (roboti.existPosition(position, this.partie.getListBloc())) {
+                Case element = this.partie.quiEstLa(position, this.partie.getTriListCaseGraphique());
+                this.robot.setEnergie(this.robot.getEnergie() - 1);
+                switch (element.toString()) {
+                    case "CaseVide":
+                        /*
+                         Dans le cas ou le missile veut accéder à une case vide
+                         */
+                        for (int i = 0; i < this.partie.getTriListCaseGraphique().size(); i++) {
+                            if (Position.egalite(this.partie.getTriListCaseGraphique().get(i).getCaze().position(), position) == true) {
+                                missile = new Missile(position, this.robot.getDirection(), this.robot.getNom());
+                                this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(missile, images.renvoiImages(missile).getImage()));
                             }
                         }
-                    }
-                    break;
-                case "Missile":
-                    /*
-                     Dans le cas ou deux missiles se rencontrent
-                     */
-                    for (int i = 0; i < this.partie.getTriListCaseGraphique().size(); i++) {
-                        if (Position.egalite(this.partie.getTriListCaseGraphique().get(i).getCaze().position(), position) == true) {
-                            //Affichage d'une image de collision de deux missile
-//                            this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(images.renvoiImagesCollisionMissile().getImage()));
-                            /*une pause d'affichage à ce niveau et après on affiche du vide*/
-                            this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(position),
-                                    images.renvoiImages(new CaseVide(position)).getImage()));
+                        break;
+                    case "Robot":
+                        /*
+                         Dans le cas ou le missile a un robot devant lui
+                         */
+                        for (int i = 0; i < this.partie.getTriListCaseGraphique().size(); i++) {
+                            if (Position.egalite(this.partie.getTriListCaseGraphique().get(i).getCaze().position(), position) == true) {
+                                Robot rob = (Robot) this.partie.getTriListCaseGraphique().get(i).getCaze();
 
-                            Iterator<Missile> iteMisssile = partie.getListMissile().iterator();
-                            while (iteMisssile.hasNext()) {
-                                Missile mis = iteMisssile.next();
-                                if (Position.egalite(position, mis.getPosition()) == true) {
-                                    iteMisssile.remove();
+                                //Le robot na pas son bouclier
+                                if (rob.isBouclier() == false) {
+                                    //On affiche une effet de collission entre un robot et une missile
+                                    this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(images.renvoiImagesRobotTue().getImage()));
+                                    this.modele.notifyObserver();
+                                    //On remplace l'emplacement du robot par une case vide car il a rendu l'âme
+                                    this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(this.position),
+                                            images.renvoiImages(new CaseVide(this.position)).getImage()));
+                                } else {
+                                    // Le robot a activé son bouclier   
                                 }
                             }
                         }
+                        break;
+                    case "Missile":
+                        /*
+                         Dans le cas ou deux missiles se rencontrent
+                         */
+                        for (int i = 0; i < this.partie.getTriListCaseGraphique().size(); i++) {
+                            if (Position.egalite(this.partie.getTriListCaseGraphique().get(i).getCaze().position(), position) == true) {
+                                //Affichage d'une image de collision de deux missile
+                                this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(images.renvoiImagesCollisionMissile().getImage()));
+                                this.modele.notifyObserver();
+                                /*une pause d'affichage à ce niveau et après on affiche du vide*/
+                                this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(position),
+                                        images.renvoiImages(new CaseVide(position)).getImage()));
+                            }
 
-                    }
+                        }
 
-                    break;
-                default:
-                    break;
+                        break;
+                    default:
+                        break;
+                }
+            } else {//le missile sort de la grille
+                this.roboti.setEnergie(this.roboti.getEnergie() - 1);
+                System.err.println("Missile sort de la grille ..");
+
             }
-        } else {//le missile sort de la grille
-            this.roboti.setEnergie(this.roboti.getEnergie() - 1);
-            System.err.println("Missile sort de la grille ..");
 
+        } else {// Le robot ne lance pas de missile il avance
+            this.robot.setEnergie(this.robot.getEnergie() - 1);
+            Strategy s = new StgAvancer(this.partie, this.robot, this.modele);
+            s.renvoyerPartie();
         }
         return this.partie;
     }

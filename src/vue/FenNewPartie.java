@@ -3,182 +3,193 @@ package vue;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
-import javax.swing.BorderFactory;
-
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 public final class FenNewPartie extends JFrame {
-	
-	private static final long serialVersionUID = 1L;
-	
-	;
-  private JLabel labelRobotname = new JLabel("Nombre de Robot:  ");
-    private JLabel labelHateurName = new JLabel("Nombre de Hauteur: ");
-    private JLabel labellargeurName = new JLabel("Nombre de largeur: ");
-    private JTextField textNbreRobot = new JTextField(4);
-   private JTextField textLargeurgrille = new JTextField(4);
-   private JTextField textHauteurgrille = new JTextField(4);
-    private JButton buttonValide = new JButton("Validé");
-    private JFormattedTextField largeurGrille, hauteurGrille, NbreRobot ;
-    private JButton validateBouton ;
-	private final Vue vue ;
 
-	public FenNewPartie(Vue vue){
-		this.vue = vue ;
+    private JLabel labelRobotname, labelHateurName, labellargeurName;
+    private JButton buttonValide;
+    private JFormattedTextField largeurGrille, hauteurGrille, nbreRobot;
+    private JPanel panel_parametres;
+    public Vue vue;
 
-		this.setTitle("Nouvelle partie");
-		this.setSize(new Dimension(340, 280));
-		this.setResizable(false);
-		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setAlwaysOnTop(true);		
-//		this.largeur = new JFormattedTextField() ;
-//		this.largeur.setPreferredSize(new Dimension(170, 40));
-//		this.largeur.setText("10");
-//		this.largeur.setFont(new Font("Tahoma", Font.BOLD, 12)) ;	
-//		this.largeur.setHorizontalAlignment(JFormattedTextField.CENTER);
-//		this.largeur.setEnabled(false);
-//		this.largeur.addKeyListener(new FiltreJTF());
-		this.setContentPane(initComponents());
-                
-	}
-	
-	public JPanel initComponents() {
-            
-         JPanel newPanel = new JPanel(new GridBagLayout());
-         
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets(10, 10, 10, 10);
-         newPanel.setBackground(Color.white);
-         
-        // add components to the panel
-//        constraints.gridx = 0;
-//        constraints.gridy = 0;     
-//        newPanel.add(labelRobotname, constraints);
-//   
-//        constraints.gridx = 1;
-//        newPanel.add(textNbreRobot, constraints);
-//         
-//        constraints.gridx = 0;
-//        constraints.gridy = 1;     
-//        newPanel.add(labelHateurName, constraints);
-//         
-//        constraints.gridx = 1;
-//        newPanel.add(textLargeurgrille, constraints);
-//        
-//        constraints.gridx = 0;
-//        constraints.gridy = 3;     
-//        newPanel.add(labelHateurName, constraints);
-//         
-//        constraints.gridx = 3;
-//        newPanel.add(textLargeurgrille, constraints);
-//         
-//        constraints.gridx = 0;
-//        constraints.gridy = 3;
-//        constraints.gridwidth = 2;
-//        constraints.anchor = GridBagConstraints.CENTER;
-//        newPanel.add(buttonValide, constraints);
-//       
-//		//gbc.gridx = 0; gbc.gridy = 7; gbc.gridwidth = 3; gbc.gridheight = 1;
-//		//this.panel_parametres.add(validate, gbc);
-		
-                constraints.gridx = 0; 
-                constraints.gridy = 0;
-                constraints.gridwidth = 1; 
-                constraints.gridheight = 1;
-		newPanel.add(labelRobotname, constraints);
-		
-		constraints.gridx = 0;
-                constraints.gridy = 1;
-                constraints.gridwidth = 2;
-                constraints.gridheight = 1;
-		newPanel.add(textNbreRobot, constraints);
-		
-		constraints.gridx = 0; 
-                constraints.gridy = 2; 
-                constraints.gridwidth = 1;
-                constraints.gridheight = 1;
-		newPanel.add(labelHateurName, constraints);
-		
-		constraints.gridx = 0;
-                constraints.gridy = 3;
-                constraints.gridwidth = 2; 
-                constraints.gridheight = 1;
-		newPanel.add(textHauteurgrille, constraints);
-		
-		constraints.gridx = 0; 
-                constraints.gridy = 4; 
-                constraints.gridwidth = 1; 
-                constraints.gridheight = 1;
-		newPanel.add(labellargeurName, constraints);
-		
-		constraints.gridx = 0; 
-                constraints.gridy = 5; 
-                constraints.gridwidth = 2; 
-                constraints.gridheight = 1;
-		newPanel.add(textLargeurgrille, constraints);
-		
-		constraints.gridx = 0; 
-                constraints.gridy = 6; 
-                constraints.gridwidth = 1; 
-                constraints.gridheight = 1;
-		newPanel.add(buttonValide, constraints);
-		
-		constraints.gridx = 1; 
-                constraints.gridy = 6; 
-                constraints.gridwidth = 1; 
-                constraints.gridheight = 1;
-		newPanel.add(buttonValide, constraints);			
-		this.buttonValide.addActionListener(new ValiderNouvellePartie("Valider la chose", vue, this)) ;
-		return newPanel;
-}
-	
-	
-	public JButton getValidate() {
-		return validateBouton;
-	}
+    public FenNewPartie(Vue vue) {
+        this.vue = vue;
 
-	public void setValidate(JButton validate) {
-		this.validateBouton = validate;
-	}
+        labelRobotname = new JLabel("Nombre de Robot(s):  ");
+        labelHateurName = new JLabel("Hauteur: ");
+        labellargeurName = new JLabel("Largeur: ");
+        buttonValide = new JButton("Jouer");
 
-	public JFormattedTextField getLargeur() {
-		return largeurGrille;
-	}
+        this.setTitle("Nouvelle Partie");
+        this.setSize(new Dimension(340, 280));
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setAlwaysOnTop(true);
+        this.setContentPane(initComponents());
 
-	public void setLargeur(JFormattedTextField largeur) {
-		this.largeurGrille = largeur;
-	}
+    }
 
-	public JFormattedTextField getHauteur() {
-		return hauteurGrille;
-	}
+    public JPanel initComponents() {
 
-	public void setHauteur(JFormattedTextField hauteur) {
-		this.hauteurGrille = hauteur;
-	}
-        
-        public JFormattedTextField getNbreRobot() {
-		return NbreRobot;
-	}
+        this.largeurGrille = new JFormattedTextField();
+        this.largeurGrille.setPreferredSize(new Dimension(170, 40));
+        this.largeurGrille.setText("4");
+        this.largeurGrille.setFont(new Font("Tahoma", Font.BOLD, 12));
+        this.largeurGrille.setHorizontalAlignment(JFormattedTextField.CENTER);
+        this.largeurGrille.addKeyListener(new FiltreJTF());
 
-	public void setNbreRobotr(JFormattedTextField NbreRobot) {
-		this.NbreRobot = NbreRobot;
-	}
+        this.hauteurGrille = new JFormattedTextField();
+        this.hauteurGrille.setPreferredSize(new Dimension(170, 40));
+        this.hauteurGrille.setText("4");
+        this.hauteurGrille.setFont(new Font("Tahoma", Font.BOLD, 12));
+        this.hauteurGrille.setHorizontalAlignment(JFormattedTextField.CENTER);
+        this.hauteurGrille.addKeyListener(new FiltreJTF());
+
+        this.nbreRobot = new JFormattedTextField();
+        this.nbreRobot.setPreferredSize(new Dimension(170, 40));
+        this.nbreRobot.setText("7");
+        this.nbreRobot.setFont(new Font("Tahoma", Font.BOLD, 12));
+        this.nbreRobot.setHorizontalAlignment(JFormattedTextField.CENTER);
+        this.nbreRobot.addKeyListener(new FiltreJTF());
+
+        this.panel_parametres = new JPanel();
+        this.panel_parametres.setLayout(new GridBagLayout());
+        this.panel_parametres.setSize(this.getWidth(), (this.getHeight() / 3) * 2);
+        this.panel_parametres.setBackground(Color.white);
+
+        JPanel content = new JPanel();
+        content.setLayout(new BorderLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.weightx = 8;
+        gbc.weighty = 1;
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        this.panel_parametres.add(this.labellargeurName, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 1;
+        this.panel_parametres.add(this.largeurGrille, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        this.panel_parametres.add(this.labelHateurName, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 1;
+        this.panel_parametres.add(this.hauteurGrille, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        this.panel_parametres.add(this.labelRobotname, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 1;
+        this.panel_parametres.add(this.nbreRobot, gbc);
+
+        buttonValide.addActionListener(new ValiderNouvellePartie("Valider la chose", this.vue, this));
+        content.add(panel_parametres, BorderLayout.NORTH);
+        this.buttonValide.setPreferredSize(new Dimension(95, 100));
+        content.add(buttonValide, BorderLayout.SOUTH);
+        return content;
+    }
+
+    public JFormattedTextField getLargeur() {
+        return largeurGrille;
+    }
+
+    public void setLargeur(JFormattedTextField largeur) {
+        this.largeurGrille = largeur;
+    }
+
+    public JFormattedTextField getHauteur() {
+        return hauteurGrille;
+    }
+
+    public void setHauteur(JFormattedTextField hauteur) {
+        this.hauteurGrille = hauteur;
+    }
+
+    public JFormattedTextField getNbreRobot() {
+        return nbreRobot;
+    }
+
+    public void setNbreRobotr(JFormattedTextField nbreRobot) {
+        this.nbreRobot = nbreRobot;
+    }
+
+    public JFormattedTextField getLargeurGrille() {
+        return largeurGrille;
+    }
+
+    public void setLargeurGrille(JFormattedTextField largeurGrille) {
+        this.largeurGrille = largeurGrille;
+    }
+
+    public JFormattedTextField getHauteurGrille() {
+        return hauteurGrille;
+    }
+
+    public void setHauteurGrille(JFormattedTextField hauteurGrille) {
+        this.hauteurGrille = hauteurGrille;
+    }
+
+    public JLabel getLabelRobotname() {
+        return labelRobotname;
+    }
+
+    public void setLabelRobotname(JLabel labelRobotname) {
+        this.labelRobotname = labelRobotname;
+    }
+
+    public JLabel getLabelHateurName() {
+        return labelHateurName;
+    }
+
+    public void setLabelHateurName(JLabel labelHateurName) {
+        this.labelHateurName = labelHateurName;
+    }
+
+    public JLabel getLabellargeurName() {
+        return labellargeurName;
+    }
+
+    public void setLabellargeurName(JLabel labellargeurName) {
+        this.labellargeurName = labellargeurName;
+    }
+
+    public JButton getButtonValide() {
+        return buttonValide;
+    }
+
+    public void setButtonValide(JButton buttonValide) {
+        this.buttonValide = buttonValide;
+    }
+
+    public Vue getVue() {
+        return vue;
+    }
 
 }
