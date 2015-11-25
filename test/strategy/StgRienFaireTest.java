@@ -5,51 +5,34 @@
  */
 package strategy;
 
-import controleur.Controleur;
 import modele.Direction;
 import modele.Modele;
 import modele.Position;
 import modele.Robot;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author scarmel
- */
 public class StgRienFaireTest {
 
     Modele modele;
-    Controleur controleur;
     StgRienFaire stgRienFaire;
     Robot robot;
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
 
     @Before
     public void setUp() {
         modele = new Modele();
-        controleur = new Controleur(modele);
-        controleur.demarrer(5, 5, 25);
+        modele.creationGrille(5, 4, 20);
+        /*
+         On crée un robot et on lui dit de se charger en energie
+         */
         robot = new Robot(0, new Position(0, 5), Direction.Ouest, true, "nom");
-        stgRienFaire = new StgRienFaire(modele.getPartie(), robot);
+        stgRienFaire = new StgRienFaire(null, robot);
 
     }
 
-    /**
-     * Test of renvoyerPartie method, of class StgRienFaire.
-     */
     @Test
-    public void testRenvoyerPartie() {
+    public void test() {
         stgRienFaire.renvoyerPartie();
         assertEquals(19, robot.getEnergie());
 

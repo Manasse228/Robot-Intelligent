@@ -7,10 +7,7 @@ package strategy;
 
 import controleur.Partie;
 
-/**
- *
- * @author 21416699
- */
+
 public interface Strategy {
 
     public Partie renvoyerPartie();

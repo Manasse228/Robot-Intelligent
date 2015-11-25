@@ -3,27 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controleur;
+package modele;
 
 import java.util.ArrayList;
-import modele.Case;
-import modele.CaseGraphique;
-import modele.Missile;
-import modele.Position;
-import modele.Robot;
 
 
 public class Partie {
 
     ArrayList<Case> listBloc;
-    ArrayList<Robot> listRobot;
+    ArrayList<Robot> listRobot, listRobotToDelete;
     ArrayList<CaseGraphique> listCaseGraphique;
     ArrayList<CaseGraphique> triListCaseGraphique;
     ArrayList<Missile> listMissile;
-
+    Robot robotMorgue;
     private int notif;
 
     public Partie() {
+        robotMorgue = new Robot();
+
+        listRobotToDelete = new ArrayList<>();
         listBloc = new ArrayList<>();
         listRobot = new ArrayList<>();
         listCaseGraphique = new ArrayList<>();
@@ -39,21 +37,12 @@ public class Partie {
         this.triListCaseGraphique = triListCaseGraphique;
     }
 
+    
     public Case quiEstLa(Position pos, ArrayList<CaseGraphique> listCaseGraphique) {
-        Case element = null;
+        Case element =null;
         for (CaseGraphique c : listCaseGraphique) {
             if (Position.egalite(pos, c.getCaze().position()) == true) {
                 element = c.getCaze();
-            }
-        }
-        return element;
-    }
-
-    public Case testQuiEstLa(Position pos, ArrayList<Case> list) {
-        Case element = null;
-        for (Case c : list) {
-            if (Position.egalite(pos, c.position()) == true) {
-                element = c;
             }
         }
         return element;
@@ -105,6 +94,22 @@ public class Partie {
 
     public void setListMissile(ArrayList<Missile> listMissile) {
         this.listMissile = listMissile;
+    }
+
+    public Robot getRobotMorgue() {
+        return robotMorgue;
+    }
+
+    public void setRobotMorgue(Robot robotMorgue) {
+        this.robotMorgue = robotMorgue;
+    }
+
+    public ArrayList<Robot> getListRobotToDelete() {
+        return listRobotToDelete;
+    }
+
+    public void setListRobotToDelete(ArrayList<Robot> listRobotToDelete) {
+        this.listRobotToDelete = listRobotToDelete;
     }
 
 }

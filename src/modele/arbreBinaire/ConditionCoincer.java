@@ -9,10 +9,7 @@ import controleur.Partie;
 import modele.Position;
 import modele.Robot;
 
-/**
- *
- * @author 21416699
- */
+
 public class ConditionCoincer implements Condition {
 
     public Robot roboti;

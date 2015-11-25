@@ -10,10 +10,7 @@ import java.util.Iterator;
 import controleur.Partie;
 import modele.Robot;
 
-/**
- *
- * @author sergeokov
- */
+
 public class Arbre extends ArbreBinaire {
 
     ArrayList listArbreBinaire;

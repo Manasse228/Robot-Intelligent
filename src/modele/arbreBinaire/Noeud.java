@@ -9,10 +9,6 @@ import java.util.ArrayList;
 import controleur.Partie;
 import modele.Robot;
 
-/**
- *
- * @author sergeokov
- */
 public class Noeud extends ArbreBinaire {
 
     public ArbreBinaire feuilleG, feuilleD;

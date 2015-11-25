@@ -5,52 +5,37 @@
  */
 package strategy;
 
-import controleur.Controleur;
-import controleur.Partie;
 import java.util.ArrayList;
 import modele.CaseGraphique;
 import modele.Direction;
 import modele.Modele;
 import modele.Position;
 import modele.Robot;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author scarmel
- */
 public class StgDebloquerTest {
 
     Modele modele;
-    Controleur controleur;
     StgDebloquer stgDebloquer;
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
 
     @Before
     public void setUp() {
         modele = new Modele();
-        controleur = new Controleur(modele);
-        controleur.demarrer(5, 5, 25);
+        /*
+         Grille de 5x5 est crée puis 25 robots sont placés dessus
+         On teste pour voir si le robot va penser
+         à se débloquer qui le pousser à tourner
+         */
+        modele.creationGrille(5, 5, 25);
+        modele.creationCaseGraphique(5, 5);
         stgDebloquer = new StgDebloquer(modele.getPartie(),
                 new Robot(18, new Position(0, 5), Direction.Ouest, true, "nom"));
     }
 
-    /**
-     * Test of listPositionPossible method, of class StgDebloquer.
-     */
     @Test
-    public void testListPositionPossible() {
+    public void test() {
         Position positionOriginal = new Position(0, 5);
         ArrayList<CaseGraphique> listCaseGraphiques = modele.getPartie().getTriListCaseGraphique();
         ArrayList<StgDebloquer.PositionDirection> result

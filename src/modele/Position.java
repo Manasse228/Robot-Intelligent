@@ -5,10 +5,7 @@
  */
 package modele;
 
-/**
- *
- * @author 21416699
- */
+
 public class Position {
     
     int x,y;

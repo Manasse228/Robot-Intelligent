@@ -10,10 +10,7 @@ import controleur.Partie;
 import modele.Position;
 import modele.Robot;
 
-/**
- *
- * @author 21416699
- */
+
 public class ConditionVoirDevant implements Condition {
 
     public ArrayList<Position> listPositionRobot;

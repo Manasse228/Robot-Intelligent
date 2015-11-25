@@ -9,8 +9,6 @@ import javax.swing.JOptionPane;
 
 public class ActionAPropos extends AbstractAction {
 
-    private static final long serialVersionUID = 4268968345214821169L;
-
     protected Vue vue;
     protected static final String message = "Robot Game:\n"
             + "Ce jeux est créé par les membres suivants: \n"

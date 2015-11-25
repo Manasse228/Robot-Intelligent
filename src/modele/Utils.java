@@ -5,10 +5,7 @@
  */
 package modele;
 
-/**
- *
- * @author sergeokov
- */
+
 public class Utils {
 
     public static String nomRobot() {

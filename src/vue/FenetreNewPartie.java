@@ -9,10 +9,6 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
-/**
- *
- * @author sergeokov
- */
 public class FenetreNewPartie extends JFrame {
  
     private Vue vue ;

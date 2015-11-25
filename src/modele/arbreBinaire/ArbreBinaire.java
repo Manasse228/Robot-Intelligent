@@ -5,10 +5,6 @@
  */
 package modele.arbreBinaire;
 
-/**
- *
- * @author sergeokov
- */
 public abstract class ArbreBinaire {
 
     public void createNoeud(ArbreBinaire noeudGauche, ArbreBinaire noeudDroite) {

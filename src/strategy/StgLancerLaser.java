@@ -13,10 +13,6 @@ import modele.Robot;
 import modele.CaseGraphique;
 import modele.Images;
 
-/**
- *
- * @author 21416699
- */
 public class StgLancerLaser implements Strategy {
     
     Partie partie;

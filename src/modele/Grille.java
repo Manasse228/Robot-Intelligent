@@ -8,10 +8,7 @@ package modele;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- *
- * @author 21416699
- */
+
 public class Grille {
 
     int hauteur, largeur;

@@ -6,14 +6,9 @@
 package modele;
 
 import javax.swing.ImageIcon;
-import modele.Case;
-import modele.Missile;
-import modele.Robot;
 
-/**
- *
- * @author sergeokov
- */
+
+
 public class Images {
 
     ImageIcon backgroung = new ImageIcon(System.getProperty("user.dir") + "/src/images/ban.jpg");

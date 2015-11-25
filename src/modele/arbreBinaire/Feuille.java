@@ -9,10 +9,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import strategy.Strategy;
 
-/**
- *
- * @author sergeokov
- */
+
 public class Feuille extends ArbreBinaire {
 
     String nom;

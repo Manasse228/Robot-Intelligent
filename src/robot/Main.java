@@ -12,16 +12,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import modele.Modele;
 import vue.Vue;
 
-/**
- *
- * @author 21416699
- */
+
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     * @throws java.lang.InterruptedException
-     */
     public static void main(String[] args) throws InterruptedException {
 
         try {

@@ -14,10 +14,6 @@ import modele.Robot;
 import modele.CaseGraphique;
 import modele.Images;
 
-/**
- *
- * @author 21416699
- */
 public class StgReculer implements Strategy {
 
     Partie partie;

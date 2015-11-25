@@ -12,10 +12,7 @@ import controleur.Partie;
 import modele.Position;
 import modele.Robot;
 
-/**
- *
- * @author 21416699
- */
+
 public class ConditionMissileDevant implements Condition {
 
     public Robot roboti;
@@ -63,9 +60,9 @@ public class ConditionMissileDevant implements Condition {
          droit sur lui et il renvoi true dans ce cas
          */
         if(listPositionMissile.isEmpty()){
-           return false; 
+           return true; 
         }else{
-            return true;
+            return false;
         }
     }
 

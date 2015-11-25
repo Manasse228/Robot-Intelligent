@@ -8,7 +8,6 @@ package vue;
 import modele.Images;
 import modele.CaseGraphique;
 import java.awt.Color;
-import java.awt.Component;
 import controleur.Controleur;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -27,7 +26,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import modele.Missile;
 import controleur.Partie;
 import javax.swing.JOptionPane;
@@ -45,10 +43,6 @@ import strategy.StgRienFaire;
 import strategy.StgTourner;
 import strategy.Strategy;
 
-/**
- *
- * @author sergeokov
- */
 public class Vue extends JFrame implements Observer {
 
     Position position;
@@ -76,12 +70,8 @@ public class Vue extends JFrame implements Observer {
         
         this.controleur = controleur;
         
-        
-        
         menu();
         init();
-
-//        jpanelDroite.setLayout(new GridLayout(0, 0, 2, 2));
         
         this.setVisible(true);
     }
@@ -122,47 +112,47 @@ public class Vue extends JFrame implements Observer {
         Strategy strategy;
         switch (ordre) {
             case "LancerMissile":
-                System.err.println("LancerMissile " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
+//                System.err.println("LancerMissile " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
                 strategy = new StgLancerMissile(this.controleur.getModele().getPartie(), r, this.controleur.getModele());
                 strategy.renvoyerPartie();
                 break;
             case "LancerLaser":
-                System.err.println("LancerLaser " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
+//                System.err.println("LancerLaser " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
                 strategy = new StgLancerLaser(this.controleur.getModele().getPartie(), r, this.controleur.getModele());
                 strategy.renvoyerPartie();
                 break;
             case "Avancer":
-                System.err.println("Avancer " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
+//                System.err.println("Avancer " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
                 strategy = new StgAvancer(this.controleur.getModele().getPartie(), r, this.controleur.getModele());
                 strategy.renvoyerPartie();
                 break;
             case "Debloquer":
-                System.err.println("Debloquer " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
+//                System.err.println("Debloquer " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
                 strategy = new StgDebloquer(this.controleur.getModele().getPartie(), r);
                 strategy.renvoyerPartie();
                 break;
             case "Reculer":
-                System.err.println("Reculer " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
+//                System.err.println("Reculer " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
                 strategy = new StgReculer(this.controleur.getModele().getPartie(), r, this.controleur.getModele());
                 strategy.renvoyerPartie();
                 break;
             case "RienFaire":
-                System.err.println("RienFaire " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
+//                System.err.println("RienFaire " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
                 strategy = new StgRienFaire(this.controleur.getModele().getPartie(), r);
                 strategy.renvoyerPartie();
                 break;
             case "Tourner":
-                System.err.println("Tourner " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
+//                System.err.println("Tourner " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
                 strategy = new StgTourner(this.controleur.getModele().getPartie(), r);
                 strategy.renvoyerPartie();
                 break;
             case "ActiverBouclier":
-                System.err.println("ActiverBouclier " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
+//                System.err.println("ActiverBouclier " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
                 strategy = new StgActiverBouclier(this.controleur.getModele().getPartie(), r);
                 strategy.renvoyerPartie();
                 break;
             case "DesactiverBouclier":
-                System.err.println("DesactiverBouclier " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
+//                System.err.println("DesactiverBouclier " + r.getPosition() + " Energie " + r.getEnergie() + " Nom " + r.getNom() + " DIrection " + r.getDirection());
                 strategy = new StgDesactiverBouclier(this.controleur.getModele().getPartie(), r);
                 strategy.renvoyerPartie();
                 break;
@@ -271,16 +261,13 @@ public class Vue extends JFrame implements Observer {
 
         JMenuBar menuBar = new JMenuBar();
         JMenu menuBar_fichier = new JMenu("Fichier");
-        //JMenu menuBar_Aprpos = new JMenu("Apropos");
         menuBar_fichier.add(new ActionNewPartie("Nouvelle partie", this));
         menuBar_fichier.addSeparator();
 
         menuBar_fichier.addSeparator();
         menuBar_fichier.add(new ActionQuitter("Quitter", this));
-        // menuBar_Aprpos.add(new NewPartieAction("Apropos", this));
         menuBar.add(menuBar_fichier);
         setJMenuBar(menuBar);
-        //JMenuBar menuBar = new JMenuBar();
 
         JMenu jMenu = new JMenu("Apropos");
         JMenuItem jMenuItem = new JMenuItem(new ActionAPropos("Apropos", this));

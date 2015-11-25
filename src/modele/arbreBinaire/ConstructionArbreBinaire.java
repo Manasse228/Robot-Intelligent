@@ -8,10 +8,7 @@ package modele.arbreBinaire;
 import controleur.Partie;
 import modele.Robot;
 
-/**
- *
- * @author sergeokov
- */
+
 public class ConstructionArbreBinaire {
 
     public Partie partie;

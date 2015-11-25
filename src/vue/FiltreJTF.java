@@ -8,10 +8,6 @@ package vue;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-/**
- *
- * @author 21416699
- */
 public class FiltreJTF extends KeyAdapter {
 
     @Override

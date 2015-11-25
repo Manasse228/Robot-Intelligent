@@ -8,10 +8,7 @@ package modele.arbreBinaire;
 import controleur.Partie;
 import modele.Robot;
 
-/**
- *
- * @author 21416699
- */
+
 public class ConditionVerificationSante implements Condition {
 
     @Override

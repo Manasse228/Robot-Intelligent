@@ -6,7 +6,6 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 public class ActionQuitter extends AbstractAction{
-	private static final long serialVersionUID = 980805590566244003L;
 	
 	protected Vue vue;
 	

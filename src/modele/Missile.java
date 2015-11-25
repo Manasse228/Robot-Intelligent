@@ -8,12 +8,8 @@ package modele;
 import controleur.Partie;
 import controleur.Controleur;
 import java.util.ArrayList;
-import java.util.Iterator;
 
-/**
- *
- * @author 21416699
- */
+
 public class Missile implements Case {
 
     Position position, nvlePosition;

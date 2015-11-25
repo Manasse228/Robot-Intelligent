@@ -8,10 +8,7 @@ package strategy;
 import controleur.Partie;
 import modele.Robot;
 
-/**
- *
- * @author 21416699
- */
+
 public class StgRienFaire implements Strategy {
 
     Partie partie;

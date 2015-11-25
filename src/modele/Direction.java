@@ -7,10 +7,7 @@ package modele;
 
 import java.util.Random;
 
-/**
- *
- * @author sergeokov
- */
+
 public enum Direction {
 
     Nord,

@@ -10,10 +10,6 @@ import modele.Position;
 import modele.Robot;
 import modele.CaseGraphique;
 
-/**
- *
- * @author sergeokov
- */
 public class StgActiverBouclier implements Strategy {
 
     Partie partie;

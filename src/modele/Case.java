@@ -5,10 +5,6 @@
  */
 package modele;
 
-/**
- *
- * @author 21416699
- */
 public interface Case {
     
     public Position position();

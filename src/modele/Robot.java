@@ -7,10 +7,6 @@ package modele;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author 21416699
- */
 public class Robot implements Case {
 
     Position position;

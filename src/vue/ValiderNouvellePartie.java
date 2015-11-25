@@ -1,17 +1,13 @@
 package vue;
 
-import controleur.Controleur;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JOptionPane;
-import modele.Modele;
 
 public class ValiderNouvellePartie extends AbstractAction {
-
-    private static final long serialVersionUID = -4564529052797763587L;
 
     protected Vue vue;
     protected FenNewPartie fen;

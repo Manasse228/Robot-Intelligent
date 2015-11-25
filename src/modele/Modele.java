@@ -10,10 +10,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- *
- * @author 21416699
- */
+
 public class Modele extends Observable {
 
     Partie partie;

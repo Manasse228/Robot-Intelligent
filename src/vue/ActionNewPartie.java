@@ -20,7 +20,6 @@ public class ActionNewPartie extends AbstractAction {
 
         FenNewPartie fen = new FenNewPartie(this.vue);
         fen.setVisible(true);
-//        this.vue.setEnabled(false);
     }
 
 }

@@ -9,22 +9,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
-import javax.swing.GroupLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
-/**
- *
- * @author sergeokov
- */
 public class FenetreAide extends JFrame {
 
     private final Vue vue;
@@ -49,8 +41,6 @@ public class FenetreAide extends JFrame {
             + "Créé par EKLOU Serge, KAPEMA Serge, KAPEMA Cedrick,  \n"
             + "VATEL Nicolas et MANEL Rekik\n");
 
-//    java.net.URL imgUrl = getClass().getResource("images/robotEst.jpg");
-//    ImageIcon icon = new ImageIcon(imgUrl);
     public FenetreAide(Vue vue) {
         this.vue = vue;
 
@@ -193,13 +183,11 @@ public class FenetreAide extends JFrame {
         constraints.gridy = 6;
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
-        //newPanel.add(buttonValide, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 6;
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
-        //newPanel.add(buttonValide, constraints);
 
         tabPane.add("Position du robot", panel1);
         tabPane.add("Destruction du robot", panel2);

@@ -7,10 +7,7 @@ package controleur;
 
 import modele.Modele;
 
-/**
- *
- * @author sergeokov
- */
+
 public class Controleur {
 
     public Modele modele;
