@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package strategy;
 
 import controleur.Partie;
 import modele.Robot;
-
 
 public class StgRienFaire implements Strategy {
 
@@ -20,7 +14,8 @@ public class StgRienFaire implements Strategy {
     }
 
     /*
-     Augmenter l'énergie du robot
+     Augmenter l'énergie du robot dans le cas où
+     son energie venait à manquer
      */
     @Override
     public Partie renvoyerPartie() {

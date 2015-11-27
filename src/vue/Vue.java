@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vue;
 
 import modele.Images;
@@ -67,16 +62,14 @@ public class Vue extends JFrame implements Observer {
         this.setLocationRelativeTo(null);
 
         listMissileVue = new ArrayList<>();
-        
         this.controleur = controleur;
-        
+
         menu();
         init();
-        
         this.setVisible(true);
     }
-    
-    public void init(){
+
+    public void init() {
         constraints = new GridBagConstraints();
         images = new Images();
         robot = new Robot();
@@ -84,7 +77,7 @@ public class Vue extends JFrame implements Observer {
         jpanelGauche = new JPanel();
         jpanelDroite = new CaseGraphique(images.renvoiImagesBackground().getImage());
         boxLayout = new BoxLayout(jpanelGauche, WIDTH);
-        
+
         jpanelGauche.setBackground(Color.BLACK);
         contentPanel.setLayout(new GridBagLayout());
 
@@ -105,7 +98,7 @@ public class Vue extends JFrame implements Observer {
         contentPanel.add(jpanelDroite, constraints);
 
         this.setContentPane(contentPanel);
-        
+
     }
 
     public void centreDeCommandement(String ordre, Robot r) {
@@ -196,7 +189,7 @@ public class Vue extends JFrame implements Observer {
 
     }
 
-    public void jouer( final Vue v) {
+    public void jouer(final Vue v) {
         Thread t = new Thread() {
             @Override
             public void run() {
@@ -257,6 +250,9 @@ public class Vue extends JFrame implements Observer {
         this.controleur.getModele().notifyObserver();
     }
 
+    /*
+     Création du ménu 
+     */
     public void menu() {
 
         JMenuBar menuBar = new JMenuBar();

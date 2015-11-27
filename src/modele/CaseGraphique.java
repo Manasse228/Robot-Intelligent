@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modele;
 
 import java.awt.Graphics;
@@ -14,8 +9,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-
 public class CaseGraphique extends JPanel {
+    /*
+     Cette classe dans le futur va representer sur la grille
+     un robot, une case vide, une missile, un laser et des effets
+     */
 
     private Image img;
     Case caze;

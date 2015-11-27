@@ -1,28 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modele;
 
-
 public class Position {
-    
-    int x,y;
+
+    int x, y;
 
     public Position(int y, int x) {
         this.x = x;
         this.y = y;
     }
 
-    public static boolean egalite(Position a, Position b){
-        if( (a.getX() == b.getX()) && (a.getY() == b.getY()) ){
+    /*
+     Cette méthode vérifie si deux positions sont égales
+     */
+    public static boolean egalite(Position a, Position b) {
+        if ((a.getX() == b.getX()) && (a.getY() == b.getY())) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
+
     public int getX() {
         return x;
     }
@@ -41,9 +38,7 @@ public class Position {
 
     @Override
     public String toString() {
-        return " X= " + x + " et  Y= " + y ;
+        return " X= " + x + " et  Y= " + y;
     }
-    
-    
-    
+
 }

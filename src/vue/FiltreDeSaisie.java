@@ -8,7 +8,7 @@ package vue;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class FiltreJTF extends KeyAdapter {
+public class FiltreDeSaisie extends KeyAdapter {
 
     @Override
     public void keyTyped(KeyEvent arg0) {

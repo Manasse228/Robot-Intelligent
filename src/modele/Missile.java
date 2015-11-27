@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modele;
 
 import controleur.Partie;
 import controleur.Controleur;
 import java.util.ArrayList;
-
 
 public class Missile implements Case {
 
@@ -33,8 +27,12 @@ public class Missile implements Case {
     public Missile() {
     }
 
+    /*
+     Grace à cette méthode une missile peut savoir la nature d'une case 
+     grace à une position
+     */
     private Case detecteurElement(Position pos, ArrayList<CaseGraphique> listCaseGraphique) {
-        Case element =null;
+        Case element = null;
         for (CaseGraphique c : listCaseGraphique) {
             if (Position.egalite(pos, c.getCaze().position()) == true) {
                 element = c.getCaze();
@@ -43,6 +41,9 @@ public class Missile implements Case {
         return element;
     }
 
+    /*
+     Renvoi d'un objet missile
+     */
     public Missile renvoiMissile(Position pos, ArrayList<CaseGraphique> listCaseGraphique) {
         Missile missile = new Missile();
         for (CaseGraphique c : listCaseGraphique) {
@@ -54,7 +55,8 @@ public class Missile implements Case {
     }
 
     /*
-     Si un missile se déplace faut effacer ces traces c'est à dire ces traces lol
+     Si un missile se déplace faut effacer les traces qu'elle 
+     laisse derrière elle 
      */
     public void effacerCesTracesArriere(Direction direction, Position position, Partie partie, Images images, String nom) {
         Position pos = new Position(0, 0);
@@ -92,7 +94,7 @@ public class Missile implements Case {
             String nom, Controleur controleur) {
         nvlePosition = robot.nextPosition(direction, position);
         if (robot.existPosition(nvlePosition, partie.getListBloc())) {
-            Case element =  detecteurElement(nvlePosition, partie.getTriListCaseGraphique());
+            Case element = detecteurElement(nvlePosition, partie.getTriListCaseGraphique());
             switch (element.toString()) {
                 case "CaseVide":
                     /*

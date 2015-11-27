@@ -1,4 +1,3 @@
-
 package strategy;
 
 import controleur.Partie;
@@ -10,8 +9,8 @@ import modele.CaseGraphique;
  *
  * @author sergeokov
  */
-public class StgDesactiverBouclier implements Strategy{
-    
+public class StgDesactiverBouclier implements Strategy {
+
     Partie partie;
     Robot robot;
 
@@ -19,12 +18,13 @@ public class StgDesactiverBouclier implements Strategy{
         this.partie = partie;
         this.robot = robot;
     }
-    
-    
 
+    /*
+     Désactivation d'un bouclier
+     */
     @Override
     public Partie renvoyerPartie() {
-        
+
         for (int i = 0; i < this.partie.getTriListCaseGraphique().size(); i++) {
             CaseGraphique caz = this.partie.getTriListCaseGraphique().get(i);
             if (caz.getCaze() instanceof Robot) {
@@ -40,5 +40,5 @@ public class StgDesactiverBouclier implements Strategy{
 
         return this.partie;
     }
-    
+
 }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package vue;
 
 import java.awt.Color;
@@ -28,7 +24,7 @@ public class FenetreAide extends JFrame {
 
     private final JLabel labelRobotMissile = new JLabel("Le Missile");
     private final JLabel labelRobotexplo = new JLabel(" Robot tué par une Missile");
-    private final JLabel labelRobotMisAttack = new JLabel("Explosion de deux missiles");
+    private final JLabel labelRobotMisAttack = new JLabel("Collision de deux missiles");
     private final JLabel labelRobotMisAttack1 = new JLabel("Robot tué par laser");
     private final JLabel labelRobotBouclier = new JLabel("Ceci indique que le robot est protégé par un bouclier");
     private final JLabel message1 = new JLabel("EKLOU Manasse Serge");
@@ -102,11 +98,11 @@ public class FenetreAide extends JFrame {
         panel3.setBackground(Color.white);
         panel4.setBackground(Color.white);
 
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        panel4.add(message, constraints);
+//        constraints.gridx = 0;
+//        constraints.gridy = 0;
+//        constraints.gridwidth = 1;
+//        constraints.gridheight = 1;
+//        panel4.add(message, constraints);
 
         constraints.gridy = 1;
         constraints.gridwidth = 2;
@@ -189,10 +185,10 @@ public class FenetreAide extends JFrame {
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
 
-        tabPane.add("Position du robot", panel1);
-        tabPane.add("Destruction du robot", panel2);
+        tabPane.add("Représentaion des robots", panel1);
+        tabPane.add("Effets", panel2);
 
-        tabPane.add("Apropos", panel4);
+//        tabPane.add("Apropos", panel4);
         this.add(tabPane);
 
     }

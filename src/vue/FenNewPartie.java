@@ -45,21 +45,21 @@ public final class FenNewPartie extends JFrame {
         this.largeurGrille.setText("4");
         this.largeurGrille.setFont(new Font("Tahoma", Font.BOLD, 12));
         this.largeurGrille.setHorizontalAlignment(JFormattedTextField.CENTER);
-        this.largeurGrille.addKeyListener(new FiltreJTF());
+        this.largeurGrille.addKeyListener(new FiltreDeSaisie());
 
         this.hauteurGrille = new JFormattedTextField();
         this.hauteurGrille.setPreferredSize(new Dimension(170, 40));
         this.hauteurGrille.setText("4");
         this.hauteurGrille.setFont(new Font("Tahoma", Font.BOLD, 12));
         this.hauteurGrille.setHorizontalAlignment(JFormattedTextField.CENTER);
-        this.hauteurGrille.addKeyListener(new FiltreJTF());
+        this.hauteurGrille.addKeyListener(new FiltreDeSaisie());
 
         this.nbreRobot = new JFormattedTextField();
         this.nbreRobot.setPreferredSize(new Dimension(170, 40));
         this.nbreRobot.setText("7");
         this.nbreRobot.setFont(new Font("Tahoma", Font.BOLD, 12));
         this.nbreRobot.setHorizontalAlignment(JFormattedTextField.CENTER);
-        this.nbreRobot.addKeyListener(new FiltreJTF());
+        this.nbreRobot.addKeyListener(new FiltreDeSaisie());
 
         this.panel_parametres = new JPanel();
         this.panel_parametres.setLayout(new GridBagLayout());

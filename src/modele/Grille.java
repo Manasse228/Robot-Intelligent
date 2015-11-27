@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modele;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 
 public class Grille {
 
@@ -20,15 +14,28 @@ public class Grille {
     Direction direction;
 
     public final void creationRobot(int hauteur, int largeur, int nbreRobots) {
+        /*
+         Création du nombre de robots créé demandé 
+         par le client
+         */
         for (int i = 0; i < nbreRobots; i++) {
             emplacementRobot(hauteur, largeur);
         }
+        /*
+         Les robot sont construits et mis dans une liste
+         */
         for (Position pos : listPositionRobots) {
-            Case caseRobot = new Robot(20, pos, Direction.getRandomDirection(), false ,Utils.nomRobot());
+            Case caseRobot = new Robot(20, pos, Direction.getRandomDirection(), false, Utils.nomRobot());
             listRobot.add((Robot) caseRobot);
             listCase.add(caseRobot);
         }
     }
+    /*
+     Cette méthode emplacementRobot permet de construire la position 
+     d'un robot de sortir qui ne sort pas de la grille 
+     et que cette position soit pas occupé par un
+     autre robot dans le passé
+     */
 
     public Position emplacementRobot(int hauteur, int largeur) {
         Position position;
@@ -51,16 +58,25 @@ public class Grille {
         return position;
     }
 
+    /*
+     Création de la grille
+     */
     public Grille(int hauteur, int largeur, int nbreRobots) {
 
         rand = new Random();
         listCase = new ArrayList<>();
         listRobot = new ArrayList<>();
         listPositionRobots = new ArrayList<>();
-
+        /*
+         Création des robots
+         */
         creationRobot(hauteur, largeur, nbreRobots);
         int pointeur = 0;
 
+        /*
+         Création de la grille qui sera composé dans un premier temps 
+         des temps et des cases vides
+         */
         for (int j = 0; j < hauteur; j++) {
             for (int i = 0; i < largeur; i++) {
 

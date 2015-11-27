@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package controleur;
 
 import java.util.ArrayList;
@@ -11,7 +7,6 @@ import modele.CaseGraphique;
 import modele.Missile;
 import modele.Position;
 import modele.Robot;
-
 
 public class Partie {
 
@@ -38,6 +33,10 @@ public class Partie {
         this.listCaseGraphique = listCaseGraphique;
         this.triListCaseGraphique = triListCaseGraphique;
     }
+    /*
+     Cette méthode permet de renvoyer le type de case en fonction de la 
+     position 
+     */
 
     public Case quiEstLa(Position pos, ArrayList<CaseGraphique> listCaseGraphique) {
         Case element = null;

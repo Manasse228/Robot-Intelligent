@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package controleur;
 
 import modele.Modele;
-
 
 public class Controleur {
 
@@ -15,6 +10,9 @@ public class Controleur {
     public Controleur(Modele modele) {
         this.modele = modele;
     }
+    /*
+     Au démarrage 
+     */
 
     public void demarrer(int hauteur, int largeur, int nbreRobot) {
         this.modele.creationGrille(hauteur, largeur, nbreRobot);

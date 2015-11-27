@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modele;
 
 import java.util.ArrayList;
@@ -27,7 +22,7 @@ public class Robot implements Case {
     /*
      Création d'un robot 
      */
-    public Robot(int energie, Position position, Direction direction, boolean bouclier,String nom) {
+    public Robot(int energie, Position position, Direction direction, boolean bouclier, String nom) {
 
         this.energie = energie;
         this.position = position;
@@ -42,6 +37,9 @@ public class Robot implements Case {
 
     }
 
+    /*
+     Renvoi l'état d'un robot
+     */
     public boolean etatRobot(ArrayList<Robot> listRobot, Robot robot) {
         boolean etat = false;
         for (Robot r : listRobot) {
@@ -52,6 +50,9 @@ public class Robot implements Case {
         return etat;
     }
 
+    /*
+     Verification de l'existence d'une position pour éviter des sorties de grille
+     */
     public boolean existPosition(Position position, ArrayList<Case> listCase) {
         boolean casePresent = false;
         for (Case c : listCase) {
@@ -62,6 +63,9 @@ public class Robot implements Case {
         return casePresent;
     }
 
+    /*
+     Détcteur d'élement et connaitre la nature d'une case par un robot
+     */
     public String detecteurElement(Position pos, ArrayList<Case> listCase) {
         String element = "";
         if (existPosition(pos, listCase) == true) {
@@ -73,10 +77,10 @@ public class Robot implements Case {
         }
         return element;
     }
-    /* cette classe si on laisse le Robot en parametre et si le robot mourait suite à un missile recu 
-     de la part de quelqun l'application va beuger car l'objet robot disparaitre 
-     */
 
+    /*
+     Renvoi de la position suivante en fonction de la direction
+     */
     public Position nextPosition(Direction direction, Position position) {
         Position pos = new Position(0, 0);
         switch (direction) {

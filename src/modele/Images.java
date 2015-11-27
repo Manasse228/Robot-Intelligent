@@ -1,15 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modele;
 
 import javax.swing.ImageIcon;
 
-
-
 public class Images {
+    /*
+     Initialisation des liens vers les images 
+     */
 
     ImageIcon backgroung = new ImageIcon(System.getProperty("user.dir") + "/src/images/ban.jpg");
     ImageIcon sanbouclierLaser = new ImageIcon(System.getProperty("user.dir") + "/src/images/sans-bouclier-laser.jpg");
@@ -32,6 +28,9 @@ public class Images {
     ImageIcon missileSud = new ImageIcon(System.getProperty("user.dir") + "/src/images/missile_sud.jpg");
     ImageIcon missileNord = new ImageIcon(System.getProperty("user.dir") + "/src/images/missile_nord.jpg");
 
+    /*
+     Renvi l'image d'un robot en fonction de sa direction
+     */
     public ImageIcon directionRobot(Case caz) {
         Robot robot = (Robot) caz;
         ImageIcon imageIcon = backgroung;
@@ -71,6 +70,9 @@ public class Images {
         return imageIcon;
     }
 
+    /*
+     Renvoi l'image d'une missile en fonction de sa direction
+     */
     public ImageIcon directionMissile(Case caz) {
         ImageIcon imageIcon = backgroung;
         Missile missile = (Missile) caz;
@@ -96,22 +98,37 @@ public class Images {
         return imageIcon;
     }
 
+    /*
+     Renvoi l'image d'une collision de deux missiles
+     */
     public ImageIcon renvoiImagesCollisionMissile() {
         return explosion;
     }
 
+    /*
+     Renvoi l'image du fond d'écran
+     */
     public ImageIcon renvoiImagesBackground() {
         return backgroung;
     }
 
+    /*
+     Renvoi l'image d'un robot tué par une missile
+     */
     public ImageIcon renvoiImagesRobotTue() {
         return sanbouclierMissile;
     }
 
+    /*
+     Renvoi l'image d'un robot tué par un laser
+     */
     public ImageIcon renvoiImagesRobotTueLaser() {
         return sanbouclierLaser;
     }
 
+    /*
+     Methode principale qui renvoi une image
+     */
     public ImageIcon renvoiImages(Case caz) {
         ImageIcon imageIcon = backgroung;
 

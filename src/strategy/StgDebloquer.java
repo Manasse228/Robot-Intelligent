@@ -1,4 +1,3 @@
-
 package strategy;
 
 import java.util.ArrayList;
@@ -83,6 +82,10 @@ public class StgDebloquer implements Strategy {
         return list;
     }
 
+    /*
+     Si un robot est coincé 
+     il se débloquera tout seul
+     */
     @Override
     public Partie renvoyerPartie() {
 
@@ -98,7 +101,7 @@ public class StgDebloquer implements Strategy {
             for (int j = 0; j < this.partie.getTriListCaseGraphique().size(); j++) {
                 if (Position.egalite(this.partie.getTriListCaseGraphique().get(j).getCaze().position(), positionDirection.getPosition())) {
                     Robot r = new Robot(this.robot.getEnergie() - 1, positionDirection.getPosition(),
-                            positionDirection.getDirection(), this.robot.isBouclier() ,this.robot.getNom());
+                            positionDirection.getDirection(), this.robot.isBouclier(), this.robot.getNom());
                     this.partie.getTriListCaseGraphique().set(j, new CaseGraphique(r, images.renvoiImages(r).getImage()));
 
                     for (int k = 0; k < this.partie.getListRobot().size(); k++) {

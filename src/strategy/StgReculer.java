@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package strategy;
 
 import modele.Case;
@@ -19,9 +14,8 @@ public class StgReculer implements Strategy {
     Partie partie;
     Robot robot;
     Images images;
-    Position pos,oldPosition;
+    Position pos, oldPosition;
     Modele modele;
-    
 
     public StgReculer(Partie partie, Robot robot, Modele modele) {
         images = new Images();
@@ -30,6 +24,9 @@ public class StgReculer implements Strategy {
         oldPosition = robot.getPosition();
         this.modele = modele;
     }
+    /*
+     Reculer
+     */
 
     @Override
     public Partie renvoyerPartie() {
@@ -74,8 +71,8 @@ public class StgReculer implements Strategy {
                     stg.renvoyerPartie();
                     break;
                 case "Missile": // Il meurt si son bouclier n'est pas activé
-                    
-                     for (int i = 0; i < this.partie.getTriListCaseGraphique().size(); i++) {
+
+                    for (int i = 0; i < this.partie.getTriListCaseGraphique().size(); i++) {
                         if (Position.egalite(this.partie.getTriListCaseGraphique().get(i).getCaze().position(), oldPosition) == true) {
                             this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(oldPosition),
                                     images.renvoiImages(new CaseVide(oldPosition)).getImage()));
@@ -87,7 +84,7 @@ public class StgReculer implements Strategy {
                                 this.modele.notifyObserver();
                                 this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(new CaseVide(pos),
                                         images.renvoiImages(new CaseVide(pos)).getImage()));
-                            }else{
+                            } else {
                                 this.partie.getTriListCaseGraphique().set(i, new CaseGraphique(this.robot,
                                         images.renvoiImages(this.robot).getImage()));
                             }
@@ -95,7 +92,7 @@ public class StgReculer implements Strategy {
                         }
                     }
                     break;
-                    
+
                 default:
                     break;
             }

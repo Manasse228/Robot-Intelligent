@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modele.arbreBinaire;
 
 import java.util.ArrayList;
@@ -28,12 +23,18 @@ public class Noeud extends ArbreBinaire {
         listArbreBinaire = new ArrayList<>();
     }
 
+    /*
+     Création d'un noued
+     */
     @Override
     public void createNoeud(ArbreBinaire arbreGauche, ArbreBinaire arbreDroite) {
         this.setFeuilleG(arbreGauche);
         this.setFeuilleD(arbreDroite);
     }
 
+    /*
+     Parcourir un noeud
+     */
     @Override
     public String parcourir() {
         String resultat = "";

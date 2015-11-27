@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modele;
 
 import controleur.Partie;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-
 
 public class Modele extends Observable {
 
@@ -31,12 +25,18 @@ public class Modele extends Observable {
         partie = new Partie();
     }
 
+    /*
+     Création de la grille
+     */
     public void creationGrille(int hauteur, int largeur, int nbreRobot) {
         partie = new Partie();
         grille = new Grille(hauteur, largeur, nbreRobot);
         partie.setListBloc(grille.getListCase());
     }
 
+    /*
+     Préparation des cases et leur emplacement sur la grille de maniere convenable
+     */
     public void creationCaseGraphique(int hauteur, int largeur) {
         for (Case caz : this.partie.getListBloc()) {
             listCaseGraphique.add(new CaseGraphique(caz, images.renvoiImages(caz).getImage()));

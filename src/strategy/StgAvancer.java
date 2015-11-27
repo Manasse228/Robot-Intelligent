@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package strategy;
 
 import modele.Case;
@@ -36,6 +31,9 @@ public class StgAvancer implements Strategy {
         oldPosition = robot.getPosition();
     }
 
+    /*
+     Dépacement d'un robot
+     */
     @Override
     public Partie renvoyerPartie() {
 
@@ -64,8 +62,9 @@ public class StgAvancer implements Strategy {
                     }
 
                     break;
+
                 case "Robot":
-                    System.err.println("je m'arrete " + this.robot.getPosition());
+
                     break;
                 case "Missile":
                     for (int i = 0; i < this.partie.getTriListCaseGraphique().size(); i++) {
